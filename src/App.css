@@ -3,6 +3,60 @@
   padding-top: 80px;
 }
 
+/* ============ Hero animations ============ */
+.hero-heading {
+  min-height: 1.2em;
+}
+
+.hero-cursor {
+  display: inline-block;
+  margin-left: 0.05em;
+  animation: hero-blink 1s step-end infinite;
+}
+
+@keyframes hero-blink {
+  0%, 50% { opacity: 1; }
+  50.01%, 100% { opacity: 0; }
+}
+
+.hero-subtitle,
+.hero-tagline,
+.hero-actions {
+  opacity: 0;
+}
+
+.hero-reveal--play .hero-subtitle {
+  animation: hero-fade 0.6s ease forwards;
+  animation-delay: 0.4s;
+}
+
+.hero-reveal--play .hero-tagline {
+  animation: hero-fade 0.6s ease forwards;
+  animation-delay: 1.2s;
+}
+
+.hero-reveal--play .hero-actions {
+  animation: hero-fade 0.6s ease forwards;
+  animation-delay: 2.0s;
+}
+
+@keyframes hero-fade {
+  to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-cursor {
+    animation: none;
+    opacity: 1;
+  }
+  .hero-subtitle,
+  .hero-tagline,
+  .hero-actions {
+    opacity: 1;
+    animation: none;
+  }
+}
+
 .dark-mode {
   background-color: #1a1a2e;
   color: #e0e0e0;
@@ -22,4 +76,313 @@
 }
 .dark-mode .text-muted {
   color: #adb5bd !important;
+}
+
+/* ============ Timeline (shared) ============ */
+.timeline-container {
+  position: relative;
+  margin: 0 auto;
+}
+
+.timeline-entry {
+  box-sizing: border-box;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.timeline-entry.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.timeline-dot {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  z-index: 2;
+}
+
+.dark-mode .timeline-entry-card {
+  background: #2a2a3e;
+  color: #e0e0e0;
+}
+
+.dark-mode .timeline-entry-card .text-muted {
+  color: #adb5bd !important;
+}
+
+/* ============ Vertical mode (Home #resume) ============ */
+.timeline-container--vertical {
+  max-width: 900px;
+  max-height: 650px;
+  overflow-y: auto;
+  padding: 20px 0;
+}
+
+.timeline-inner-vertical {
+  position: relative;
+}
+
+.timeline-line-vertical {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 3px;
+  background: linear-gradient(180deg, #6366f1 0%, #4fc3f7 100%);
+  transform: translateX(-50%);
+  border-radius: 2px;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.timeline-inner-vertical > .timeline-entry {
+  position: relative;
+  width: 50%;
+  padding: 20px 40px;
+  z-index: 1;
+}
+
+.timeline-inner-vertical > .timeline-entry:nth-child(odd) {
+  left: 0;
+}
+
+.timeline-inner-vertical > .timeline-entry:nth-child(even) {
+  left: 50%;
+}
+
+.timeline-inner-vertical > .timeline-entry .timeline-dot {
+  position: absolute;
+  top: 30px;
+}
+
+.timeline-inner-vertical > .timeline-entry:nth-child(odd) .timeline-dot {
+  right: -20px;
+}
+
+.timeline-inner-vertical > .timeline-entry:nth-child(even) .timeline-dot {
+  left: -20px;
+}
+
+.dark-mode .timeline-line-vertical {
+  background: linear-gradient(180deg, #818cf8 0%, #4fc3f7 100%);
+}
+
+/* ============ Horizontal mode (/resume) — date-accurate layout ============ */
+.timeline-container--horizontal {
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 20px 0;
+}
+
+.timeline-horizontal-inner {
+  position: relative;
+  min-width: 1600px;
+  height: 560px;
+}
+
+.timeline-horizontal-line {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #6366f1 0%, #4fc3f7 100%);
+  border-radius: 2px;
+  transform: translateY(-50%);
+  z-index: 0;
+}
+
+/* Year marker: small tick crossing the line, label floating above */
+.timeline-year-tick {
+  position: absolute;
+  top: 50%;
+  width: 2px;
+  height: 14px;
+  background: rgba(99, 102, 241, 0.5);
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.timeline-year-tick::before {
+  content: attr(data-year);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  font-weight: 600;
+  color: #6c757d;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+/* An entry fills the full vertical space of the inner; card + dot are positioned inside it */
+.timeline-entry--horizontal {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 320px;
+  transform: translateX(-50%);
+}
+
+.timeline-entry--horizontal .timeline-entry-card {
+  position: absolute;
+  left: 0;
+  right: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* Top lane — card above the line, dot on the line */
+.timeline-entry--top .timeline-entry-card {
+  top: 20px;
+  max-height: 220px;
+}
+
+/* Bottom lane — card below the line, dot on the line */
+.timeline-entry--bottom .timeline-entry-card {
+  top: 320px;
+  max-height: 220px;
+}
+
+/* Subtle scrollbar for overflowing horizontal card content */
+.timeline-entry--horizontal .timeline-entry-card::-webkit-scrollbar {
+  width: 6px;
+}
+.timeline-entry--horizontal .timeline-entry-card::-webkit-scrollbar-track {
+  background: transparent;
+}
+.timeline-entry--horizontal .timeline-entry-card::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.18);
+  border-radius: 3px;
+}
+.dark-mode .timeline-entry--horizontal .timeline-entry-card::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* ============ Scroll hint (below timeline on Home) ============ */
+.scroll-hint-wrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.scroll-hint {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: #6c757d;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.scroll-hint:hover {
+  color: #6366f1;
+  transform: translateY(2px);
+}
+
+.scroll-hint-box {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6366f1 0%, #4fc3f7 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.28);
+  animation: scroll-hint-bounce 2s ease-in-out infinite;
+}
+
+.scroll-hint-box svg {
+  width: 18px;
+  height: 18px;
+}
+
+.scroll-hint-text {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+@keyframes scroll-hint-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(6px); }
+}
+
+.dark-mode .scroll-hint {
+  color: #adb5bd;
+}
+
+.dark-mode .scroll-hint:hover {
+  color: #818cf8;
+}
+
+.dark-mode .scroll-hint-box {
+  background: linear-gradient(135deg, #818cf8 0%, #4fc3f7 100%);
+  box-shadow: 0 4px 14px rgba(129, 140, 248, 0.35);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-hint-box {
+    animation: none;
+  }
+  .scroll-hint:hover {
+    transform: none;
+  }
+}
+
+.timeline-entry--horizontal .timeline-dot {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 36px;
+  height: 36px;
+  z-index: 2;
+}
+
+.dark-mode .timeline-horizontal-line {
+  background: linear-gradient(90deg, #818cf8 0%, #4fc3f7 100%);
+}
+
+.dark-mode .timeline-year-tick {
+  background: rgba(129, 140, 248, 0.5);
+}
+
+.dark-mode .timeline-year-tick::before {
+  color: #adb5bd;
+}
+
+/* ============ Mobile ============ */
+@media (max-width: 768px) {
+  .timeline-line-vertical {
+    left: 20px;
+  }
+  .timeline-inner-vertical > .timeline-entry {
+    width: 100%;
+    left: 0 !important;
+    padding-left: 50px;
+    padding-right: 20px;
+  }
+  .timeline-inner-vertical > .timeline-entry .timeline-dot {
+    left: 0 !important;
+    right: auto !important;
+  }
+  .timeline-horizontal-inner {
+    min-width: 1400px;
+  }
+  .timeline-entry--horizontal {
+    width: 260px;
+  }
 }

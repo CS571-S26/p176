@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { Container, Row, Col, Form, ButtonGroup, Button } from 'react-bootstrap';
+import { FaChevronDown } from 'react-icons/fa';
 import Hero from '../components/Hero';
 import ProjectCard from '../components/ProjectCard';
 import SkillGrid from '../components/SkillGrid';
 import ContactForm from '../components/ContactForm';
 import Guestbook from '../components/Guestbook';
+import ResumeTimeline from '../components/ResumeTimeline';
 import projectsData from '../data/projects';
 
 function Home() {
@@ -69,9 +71,24 @@ function Home() {
       </section>
 
       <section id="resume" className="py-5">
-        <Container className="text-center">
-          <h2 className="fw-bold mb-4">Resume</h2>
-          <p className="text-muted">Coming soon — interactive timeline + PDF download</p>
+        <Container>
+          <ResumeTimeline orientation="vertical" />
+          <div className="scroll-hint-wrap">
+            <a
+              className="scroll-hint"
+              href="#contact"
+              onClick={(e) => {
+                e.preventDefault();
+                document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+              }}
+              aria-label="Scroll to contact section"
+            >
+              <div className="scroll-hint-box">
+                <FaChevronDown />
+              </div>
+              <span className="scroll-hint-text">Scroll</span>
+            </a>
+          </div>
         </Container>
       </section>
 

@@ -3,6 +3,8 @@ import NavigationBar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './pages/Home';
 import ProjectDetail from './pages/ProjectDetail';
+import ExperienceDetail from './pages/ExperienceDetail';
+import Resume from './pages/Resume';
 import { useState } from 'react';
 import './App.css';
 
@@ -15,6 +17,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/project/:id" element={<ProjectDetail />} />
+          <Route path="/experience/:id" element={<ExperienceDetail />} />
+          <Route path="/resume" element={<Resume />} />
         </Routes>
         <Footer />
       </div>

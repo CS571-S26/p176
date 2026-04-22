@@ -12,7 +12,9 @@ function ContactForm() {
     setTimeout(() => setSent(false), 3000);
   };
 
-  return (
+
+  
+return (
     <>
       <h5>Send a Message</h5>
       {sent && <Alert variant="success">Message sent! (Demo only)</Alert>}

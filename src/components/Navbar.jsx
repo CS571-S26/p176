@@ -12,7 +12,7 @@ function NavigationBar({ darkMode, setDarkMode }) {
     <Navbar bg={darkMode ? 'dark' : 'light'} variant={darkMode ? 'dark' : 'light'} expand="lg" sticky="top">
       <Container>
         <Navbar.Brand as={Link} to="/" style={{ fontWeight: 'bold' }}>
-          Jay | DevPortfolio
+          Jatin | DevPortfolio
         </Navbar.Brand>
         <Navbar.Toggle />
         <Navbar.Collapse className="justify-content-end">
@@ -20,7 +20,7 @@ function NavigationBar({ darkMode, setDarkMode }) {
             <Nav.Link onClick={() => scrollTo('hero')}>Home</Nav.Link>
             <Nav.Link onClick={() => scrollTo('projects')}>Projects</Nav.Link>
             <Nav.Link onClick={() => scrollTo('skills')}>Skills</Nav.Link>
-            <Nav.Link onClick={() => scrollTo('resume')}>Resume</Nav.Link>
+            <Nav.Link as={Link} to="/resume">Resume</Nav.Link>
             <Nav.Link onClick={() => scrollTo('contact')}>Contact</Nav.Link>
             <Nav.Link onClick={() => setDarkMode(!darkMode)}>
               {darkMode ? <FaSun /> : <FaMoon />}
