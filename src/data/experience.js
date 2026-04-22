@@ -10,7 +10,7 @@ const experience = [
       'SmartCert is an enterprise compliance platform that automates review of aerospace certification documents against FAA and industry regulatory standards. Manual review historically required engineers to cross-reference dense specifications against regulatory text — hours per document. I led the backend architecture for an LLM-driven validation pipeline that cut that review time from hours to minutes.',
     team:
       'Sole backend engineer; mentor-guided; collaborated with one frontend engineer on a GitFlow-based sprint cadence.',
-    tags: ['Python', 'FastAPI', 'MongoDB', 'Google Gemini', 'Docker', 'REST'],
+    tags: ['Python', 'FastAPI', 'MongoDB', 'Google Gemini', 'Docker', 'REST', 'Git', 'Scrum'],
     impact: [
       'Cut manual compliance review time by 75%+ (hours → minutes) via an LLM validation pipeline.',
       'Backend served 1,500+ manufacturing clients across 20+ countries.',

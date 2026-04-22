@@ -37,10 +37,10 @@ function Hero() {
         </h1>
         <div className={`hero-reveal${typingDone ? ' hero-reveal--play' : ''}`}>
           <p className="lead mt-3 hero-subtitle">
-            Software Engineer · Backend & Full Stack · UW-Madison '26
+            Software Engineer · Backend & Full Stack · Data Engineer
           </p>
           <p className="text-muted mt-2 hero-tagline">
-            I build scalable systems, from chaos engineering platforms to AI-powered compliance tools.
+            Building scalable, production-grade systems across cloud, AI, and distributed infrastructure.
           </p>
           <div className="mt-4 d-flex justify-content-center gap-3 hero-actions">
             <Button
@@ -49,7 +49,12 @@ function Hero() {
             >
               View Projects
             </Button>
-            <Button variant="outline-secondary" href="/resume.pdf" target="_blank">
+            <Button
+              variant="light"
+              className="liquid-glass-btn"
+              href="/p176/resume.pdf"
+              target="_blank"
+            >
               Download Resume
             </Button>
           </div>

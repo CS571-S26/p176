@@ -7,7 +7,7 @@ const skillCategories = {
   Frameworks: {
     color: '#81c784',
     bg: '#e8f5e9',
-    skills: ['React', 'FastAPI', 'Spring Boot']
+    skills: ['React', 'FastAPI', 'Spring Boot', 'Flask']
   },
   'DevOps & Cloud': {
     color: '#ffb74d',
@@ -17,7 +17,7 @@ const skillCategories = {
   'AI & LLM': {
     color: '#1a5b72ff',
     bg: '#b5dbe8ff',
-    skills: ['scikit-learn', 'Gemini API', 'OpenAI API']
+    skills: ['scikit-learn', 'Gemini API', 'OpenAI API', 'NLP']
   },
   Observability: {
     color: '#ef5350',
@@ -27,12 +27,12 @@ const skillCategories = {
   Databases: {
     color: '#ce93d8',
     bg: '#f3e5f5',
-    skills: ['PostgreSQL', 'MongoDB', 'Supabase']
+    skills: ['PostgreSQL', 'MongoDB', 'Supabase', 'Flyway', 'Redis']
   },
   'Other Tools': {
     color: '#90a4ae',
     bg: '#eceff1',
-    skills: ['Git', 'Flyway', 'Google Maps API']
+    skills: ['Git', 'Google Maps API', 'JWT', 'Scrum']
   }
 };
 

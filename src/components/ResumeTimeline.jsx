@@ -1,47 +1,77 @@
 import { useState, useRef } from 'react';
-import { Button, ButtonGroup } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import { FaDownload } from 'react-icons/fa';
+import { LuLayers, LuGraduationCap, LuBriefcase, LuCodeXml } from 'react-icons/lu';
 import TimelineEntry from './TimelineEntry';
 import timeline, { timelineYears, datePercent } from '../data/timeline';
 
 const filters = [
-  { value: 'All', label: 'All' },
-  { value: 'education', label: 'Education' },
-  { value: 'experience', label: 'Experience' },
-  { value: 'project', label: 'Projects' },
+  { value: 'All',        label: 'All',        Icon: LuLayers,        color: '#6c757d' },
+  { value: 'education',  label: 'Education',  Icon: LuGraduationCap, color: '#4fc3f7' },
+  { value: 'experience', label: 'Experience', Icon: LuBriefcase,     color: '#81c784' },
+  { value: 'project',    label: 'Projects',   Icon: LuCodeXml,       color: '#ffb74d' },
 ];
 
 function ResumeTimeline({ orientation = 'vertical' }) {
   const [filter, setFilter] = useState('All');
   const containerRef = useRef(null);
+  const isHorizontal = orientation === 'horizontal';
 
   const filtered = timeline.filter(e => filter === 'All' || e.type === filter);
-  const entries = orientation === 'horizontal'
+  const entries = isHorizontal
     ? [...filtered].sort(
         (a, b) => (a.endYear - b.endYear) || (a.endMonth - b.endMonth)
       )
     : filtered;
 
+  const headingClass = isHorizontal ? 'display-6 fw-bold mb-0' : 'fw-bold mb-0';
+  const buttonSize = undefined; // default size on both modes (down from 'lg' on horizontal)
+
   return (
     <>
-      <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
-        <h2 className="fw-bold mb-0">Resume</h2>
-        <Button variant="primary" href="/resume.pdf" target="_blank" download>
-          <FaDownload /> Download PDF
-        </Button>
-      </div>
-      <ButtonGroup className="mb-4 d-flex flex-wrap">
-        {filters.map(f => (
+      <div className="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+        <h2 className={headingClass}>Resume</h2>
+        {isHorizontal ? (
           <Button
-            key={f.value}
-            variant={filter === f.value ? 'primary' : 'outline-primary'}
-            size="sm"
-            onClick={() => setFilter(f.value)}
+            variant="light"
+            className="liquid-glass-btn"
+            size={buttonSize}
+            href="/p176/resume.pdf"
+            target="_blank"
+            download
           >
-            {f.label}
+            <FaDownload /> Download Resume
           </Button>
-        ))}
-      </ButtonGroup>
+        ) : (
+          <Button
+            variant="light"
+            className="liquid-glass-btn"
+            href="/p176/resume.pdf"
+            target="_blank"
+          >
+            View Resume
+          </Button>
+        )}
+      </div>
+      <div className="d-flex align-items-center gap-2 flex-wrap mb-4">
+        <small className="text-muted me-1">Filter by:</small>
+        {filters.map(f => {
+          const active = filter === f.value;
+          return (
+            <button
+              key={f.value}
+              type="button"
+              className={`resume-filter-chip${active ? ' resume-filter-chip--active' : ''}`}
+              style={{ '--chip-color': f.color }}
+              onClick={() => setFilter(f.value)}
+              aria-pressed={active}
+            >
+              <f.Icon size={16} />
+              <span>{f.label}</span>
+            </button>
+          );
+        })}
+      </div>
 
       {entries.length === 0 ? (
         <p className="text-muted text-center">No entries match this filter.</p>

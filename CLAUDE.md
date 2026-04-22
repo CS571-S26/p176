@@ -131,18 +131,19 @@ Four routes defined in `src/App.jsx`:
 
 Entries live in `src/data/timeline.js`; `TimelineEntry.jsx` is the shared card. Adding a new timeline type requires updating `timelineTypes` in `timeline.js` AND the `iconMap` in `TimelineEntry.jsx`.
 
-**Known gap:** scroll-based nav links silently no-op when clicked from `/project/:id` or `/resume` (`getElementById` returns null off-Home). Fix would require teaching the navbar to `navigate('/')` then scroll.
+**Cross-route scrolling:** when a scroll-based nav link is clicked off-Home, `Navbar.jsx` calls `navigate('/', { state: { scrollTo: id } })` instead of `getElementById`. `Home.jsx` has a `useEffect` on `location` that reads `location.state.scrollTo` and scrolls to that section on the next animation frame, so clicking Home/Projects/Skills/Contact from `/project/:id`, `/experience/:id`, or `/resume` routes back to Home and lands at the right section.
 
 **Note:** `id="hero"` is defined inside `components/Hero.jsx`, not in `Home.jsx` where the other `<section id="...">` blocks live.
 
 ### State Management
 - **Dark mode**: `useState` in `App.jsx`, prop drilled to `NavigationBar`. Toggles `.dark-mode` class on root wrapper, styled in `App.css`
-- **Project votes**: `useState` in `Home.jsx`, passed to `ProjectCard` via `onVote` callback
+- **Project votes**: `useState` in `Home.jsx`, passed to `ProjectCard` via `onVote` callback. Persisted per-browser to `localStorage['p176:project-votes']` as a `{ [id]: votes }` map — lazy init reads and merges onto static `projectsData`; `handleVote` writes the whole map after each increment. Only the map is stored, not project content, so stale project metadata can't get frozen in visitors' browsers.
 - **Filters/search**: `useState` in `Home.jsx` for project `filter`, `search`, `showAllTags`; `useState` for timeline `filter` in `ResumeTimeline.jsx` (each mount has its own state, so the Home section and `/resume` page do not share a filter)
 - **Contact form**: local `useState` in `ContactForm.jsx`
-- **Guestbook**: local `useState` in `Guestbook.jsx` with seeded initial entry
+- **Guestbook**: local `useState` in `Guestbook.jsx` seeded with one entry; persisted per-browser to `localStorage['p176:guestbook']`. Lazy init reads storage; a `useEffect` writes the full `entries` array on every change. Entries created via the form are tagged with `{ id, mine: true }` — only those render a small "×" delete button, so a visitor can remove their own notes but not the seed entry or (in the future) entries they didn't author.
 - **Timeline visibility**: local `useState` + `useRef` + `IntersectionObserver` in `TimelineEntry.jsx` — toggles a `.visible` class when the entry enters the viewport (threshold 0.2). Observer disconnects on unmount.
-- All state is ephemeral — resets on page reload. No localStorage, no backend.
+- **Scroll restoration**: `ScrollManager` in `App.jsx` continuously writes `scrollY` to `sessionStorage['scroll:${pathname}']`; on POP or on routes carrying `state.restoreScroll`, it restores that Y.
+- Votes and guestbook entries persist per-browser (localStorage); scroll positions persist per-tab (sessionStorage). All other state (dark mode, filters, form inputs, timeline filter) is ephemeral and resets on reload. Cross-device persistence for votes/guestbook requires the Future Roadmap backend.
 
 ### Data Model (Single Source of Truth)
 

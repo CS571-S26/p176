@@ -14,7 +14,11 @@ function ProjectDetail() {
 
   return (
     <Container className="py-5" style={{ maxWidth: '800px' }}>
-      <Button variant="link" onClick={() => navigate('/')} className="mb-3 p-0">
+      <Button
+        variant="link"
+        onClick={() => navigate('/', { state: { scrollTo: 'projects' } })}
+        className="mb-3 p-0"
+      >
         <FaArrowLeft /> Back to all projects
       </Button>
       <h1 className="fw-bold">{project.title}</h1>

@@ -17,6 +17,10 @@ const projects = [
       "OpenTelemetry",
       "Prometheus",
       "Jaeger",
+      "OpenAI API",
+      "scikit-learn",
+      "JavaScript",
+      "Git",
     ],
     highlights: [
       "Architected a multi-tenant chaos engineering platform on Kubernetes with user-defined microservice topologies and isolated sandboxes for failure experiments.",
@@ -39,7 +43,7 @@ const projects = [
     description:
       "Async document-processing backend that uses Google Gemini to analyze aerospace certification documents against regulatory standards. Cut manual compliance review from hours to minutes. (See the Experience page for the deep dive — this was my SmartCert internship role.)",
     image: "/smartcert.png",
-    tags: ["Python", "FastAPI", "MongoDB", "Google Gemini", "Docker"],
+    tags: ["Python", "FastAPI", "MongoDB", "Google Gemini", "Docker", "React", "JavaScript", "Git", "Scrum"],
     highlights: [
       "Engineered an LLM validation pipeline with prompt engineering, schema enforcement, confidence scoring, and cascading fallback logic.",
       "Async Python/FastAPI + MongoDB serving 1,500+ manufacturing clients across 20+ countries.",
@@ -61,7 +65,7 @@ const projects = [
     description:
       "A Java Spring Boot application with React frontend for managing book collections, reading status, and reviews. Layered architecture (Controller / Service / Repository / Entity), JWT-based RBAC, Google Books API integration, and Flyway schema migrations.",
     image: "/bookshelf.png",
-    tags: ["Java", "Spring Boot", "React", "PostgreSQL", "Flyway", "Docker"],
+    tags: ["Java", "Spring Boot", "React", "PostgreSQL", "Flyway", "Docker", "JWT", "Git"],
     highlights: [
       "Implemented JWT authentication with role-based access control, securing REST endpoints via a custom Spring Security filter chain.",
       "Integrated the Google Books API using reactive WebClient for non-blocking metadata retrieval and catalog enrichment.",
@@ -82,7 +86,7 @@ const projects = [
     description:
       "A Flask + Supabase (PostgreSQL) + Google Maps API platform combining traffic, weather, and Wisconsin DOT data into safety-aware routing. An AI-powered hazard reporting feature turns short user observations into structured incident reports with location context.",
     image: "/madsnowi.png",
-    tags: ["Python", "Flask", "Supabase", "PostgreSQL", "Google Maps API", "NLP"],
+    tags: ["Python", "Flask", "Supabase", "PostgreSQL", "Google Maps API", "NLP", "TypeScript", "React", "JavaScript", "Git"],
     highlights: [
       "Safety scoring system that ranks and visualizes hazardous road segments in real time, improving route decisions under adverse conditions.",
       "AI-powered hazard reporting: short user observations → structured incident reports using location context and NLP.",

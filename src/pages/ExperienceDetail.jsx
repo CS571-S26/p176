@@ -19,7 +19,11 @@ function ExperienceDetail() {
 
   return (
     <Container className="py-5" style={{ maxWidth: '800px' }}>
-      <Button variant="link" onClick={() => navigate('/')} className="mb-3 p-0">
+      <Button
+        variant="link"
+        onClick={() => navigate('/', { state: { restoreScroll: true } })}
+        className="mb-3 p-0"
+      >
         <FaArrowLeft /> Back to home
       </Button>
 

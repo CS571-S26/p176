@@ -115,12 +115,12 @@ const timeline = [
     startYear: 2025,
     startMonth: 6,
     endYear: 2025,
-    // endMonth shifted from 8 → 7.54 so MadSnowi's center lands at 8%
-    // of the horizontal timeline for more breathing room from BookShelf.
-    // Actual end is Aug 2025 (see `period` label on the card). Card's
-    // left edge extends ~32px past the container's left edge; the first
-    // ~12px of the card's content area (title text) gets lightly clipped.
-    endMonth: 7.54,
+    // endMonth set to 7.57 so MadSnowi's center lands at 8.2% of the
+    // horizontal timeline for more breathing room from BookShelf. Card's
+    // left edge extends past the container's left edge, but the extra
+    // space is within the card's border + body padding so the title
+    // stays readable. Actual end is Aug 2025 (see `period` label).
+    endMonth: 7.57,
     description:
       'Flask + Supabase route optimizer combining traffic, weather, and Wisconsin DOT data for safety-aware routing. AI-powered hazard reporting turns observations into structured incident reports; 40% backend perf improvement from caching + query tuning.',
     link: '/#/project/4',
