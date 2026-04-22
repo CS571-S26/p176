@@ -19,7 +19,7 @@ function ProjectCard({ project, onVote }) {
 
   return (
     <Card className="project-card h-100 shadow-sm" style={{ cursor: 'pointer' }}>
-      <Card.Body onClick={() => navigate(`/project/${project.id}`)}>
+      <Card.Body onClick={() => navigate(`/project/${project.id}`, { state: { from: 'projects' } })}>
         <Card.Title className="fw-bold">{project.title}</Card.Title>
         <Card.Subtitle className="text-muted mb-2">{project.tagline}</Card.Subtitle>
         <div className="mb-2">
@@ -57,6 +57,7 @@ function ProjectCard({ project, onVote }) {
       <Card.Footer className="d-flex justify-content-between align-items-center">
         <Link
           to={`/project/${project.id}`}
+          state={{ from: 'projects' }}
           className="small fw-semibold text-primary text-decoration-none"
           onClick={(e) => e.stopPropagation()}
         >

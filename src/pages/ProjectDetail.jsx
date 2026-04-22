@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { Container, Badge, Button, ListGroup } from 'react-bootstrap';
 import { FaArrowLeft, FaGithub, FaExternalLinkAlt } from 'react-icons/fa';
 import projects from '../data/projects';
@@ -8,7 +8,13 @@ import SkillBadge from '../components/SkillBadge';
 function ProjectDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
   const project = projects.find(p => p.id === parseInt(id));
+
+  // Where the user came from — used to pick the back button's label and
+  // scroll target. Falls back to 'projects' for direct/bookmarked URLs.
+  const from = location.state?.from === 'resume' ? 'resume' : 'projects';
+  const backLabel = from === 'resume' ? 'Back to resume' : 'Back to all projects';
 
   if (!project) return <Container className="py-5"><h2>Project not found</h2></Container>;
 
@@ -16,10 +22,10 @@ function ProjectDetail() {
     <Container className="py-5" style={{ maxWidth: '800px' }}>
       <Button
         variant="link"
-        onClick={() => navigate('/', { state: { scrollTo: 'projects' } })}
+        onClick={() => navigate('/', { state: { scrollTo: from } })}
         className="mb-3 p-0"
       >
-        <FaArrowLeft /> Back to all projects
+        <FaArrowLeft /> {backLabel}
       </Button>
       <h1 className="fw-bold">{project.title}</h1>
       <p className="lead text-muted">{project.tagline}</p>

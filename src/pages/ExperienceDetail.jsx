@@ -21,10 +21,10 @@ function ExperienceDetail() {
     <Container className="py-5" style={{ maxWidth: '800px' }}>
       <Button
         variant="link"
-        onClick={() => navigate('/', { state: { restoreScroll: true } })}
+        onClick={() => navigate('/', { state: { scrollTo: 'resume' } })}
         className="mb-3 p-0"
       >
-        <FaArrowLeft /> Back to home
+        <FaArrowLeft /> Back to resume
       </Button>
 
       <div className="d-flex align-items-center mb-2" style={{ color: '#81c784' }}>

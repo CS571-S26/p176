@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import { Card, Collapse } from 'react-bootstrap';
 import { FaGraduationCap, FaBriefcase, FaCode, FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import { getTypeStyle, getTypeLabel, timelineTypes } from '../data/timeline';
@@ -107,9 +108,13 @@ function TimelineEntry({ entry, rootRef, orientation = 'vertical', lane, leftPer
 
           {entry.link && (
             <div className="mt-2">
-              <a href={entry.link} className="small fw-semibold">
+              <Link
+                to={entry.link.replace(/^\/#/, '')}
+                state={{ from: 'resume' }}
+                className="small fw-semibold"
+              >
                 See details →
-              </a>
+              </Link>
             </div>
           )}
         </Card.Body>
