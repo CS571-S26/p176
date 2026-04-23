@@ -92,15 +92,23 @@
   min-height: 1.2em;
 }
 
-.hero-cursor {
+/* Thin text-editor caret appended to the end of the typed heading.
+   TypeAnimation renders with cursor={false}; this ::after takes its place
+   so the caret is a 3px bar instead of a bold "|" glyph. */
+.hero-heading::after {
+  content: '';
   display: inline-block;
-  margin-left: 0.05em;
-  animation: hero-blink 1s step-end infinite;
+  width: 3px;
+  height: 0.8em;
+  margin-left: 4px;
+  vertical-align: middle;
+  background-color: currentColor;
+  animation: hero-caret-blink 1s steps(2) infinite;
 }
 
-@keyframes hero-blink {
-  0%, 50% { opacity: 1; }
-  50.01%, 100% { opacity: 0; }
+@keyframes hero-caret-blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
 }
 
 .hero-subtitle,
@@ -129,9 +137,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero-cursor {
-    animation: none;
-    opacity: 1;
+  .hero-heading::after {
+    display: none;
   }
   .hero-subtitle,
   .hero-tagline,

@@ -1,40 +1,43 @@
 import { useState, useEffect } from 'react';
 import { Container, Button } from 'react-bootstrap';
 import { FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa';
+import { TypeAnimation } from 'react-type-animation';
 
 const FULL_HEADING = "Hi! I'm Jatin";
-const TYPE_MS = 90;
+const TYPE_SPEED = 50;
+const TYPING_DURATION_MS = FULL_HEADING.length * TYPE_SPEED;
+const FADE_START_BUFFER_MS = 150;
 
 function Hero() {
-  const [typed, setTyped] = useState('');
-  const [typingDone, setTypingDone] = useState(false);
+  const reduceMotion =
+    typeof window !== 'undefined' &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const [typingDone, setTypingDone] = useState(reduceMotion);
 
   useEffect(() => {
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reduce) {
-      setTyped(FULL_HEADING);
-      setTypingDone(true);
-      return;
-    }
-    let i = 0;
-    const iv = setInterval(() => {
-      i++;
-      setTyped(FULL_HEADING.slice(0, i));
-      if (i >= FULL_HEADING.length) {
-        clearInterval(iv);
-        setTypingDone(true);
-      }
-    }, TYPE_MS);
-    return () => clearInterval(iv);
-  }, []);
+    if (reduceMotion) return;
+    const t = setTimeout(
+      () => setTypingDone(true),
+      TYPING_DURATION_MS + FADE_START_BUFFER_MS
+    );
+    return () => clearTimeout(t);
+  }, [reduceMotion]);
 
   return (
     <section id="hero" className="hero-section d-flex align-items-center">
       <Container className="text-center">
-        <h1 className="display-3 fw-bold hero-heading">
-          {typed}
-          <span className="hero-cursor" aria-hidden="true">_</span>
-        </h1>
+        {reduceMotion ? (
+          <h1 className="display-3 fw-bold hero-heading">{FULL_HEADING}</h1>
+        ) : (
+          <TypeAnimation
+            sequence={[FULL_HEADING]}
+            wrapper="h1"
+            cursor={false}
+            speed={TYPE_SPEED}
+            repeat={0}
+            className="display-3 fw-bold hero-heading"
+          />
+        )}
         <div className={`hero-reveal${typingDone ? ' hero-reveal--play' : ''}`}>
           <p className="lead mt-3 hero-subtitle">
             Software Engineer · Backend & Full Stack · Data Engineer
