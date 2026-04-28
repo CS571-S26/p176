@@ -7,9 +7,16 @@ import SkillBadge from './SkillBadge';
 
 const MAX_VISIBLE_TAGS = 6;
 
-function ProjectCard({ project, onVote }) {
+function ProjectCard({ project, onVote, hasClicked = false }) {
   const navigate = useNavigate();
   const [tagsExpanded, setTagsExpanded] = useState(false);
+  const [jumping, setJumping] = useState(false);
+
+  const voteBtnClass = [
+    'vote-btn',
+    !hasClicked && 'vote-btn--unclicked',
+    jumping && 'vote-btn--jumping',
+  ].filter(Boolean).join(' ');
 
   const hiddenCount = Math.max(0, project.tags.length - MAX_VISIBLE_TAGS);
   const visibleTags =
@@ -83,7 +90,20 @@ function ProjectCard({ project, onVote }) {
             </button>
           )}
         </div>
-        <Card.Text className="small">{project.description.substring(0, 120)}...</Card.Text>
+        {project.screenshot && (
+          <img
+            className="project-screenshot"
+            src={`${import.meta.env.BASE_URL}${project.screenshot.replace(/^\//, '')}`}
+            alt={project.screenshotAlt || `${project.title} screenshot`}
+            style={project.screenshotAspectRatio ? {
+              aspectRatio: project.screenshotAspectRatio,
+              height: 'auto',
+              objectFit: 'cover',
+              objectPosition: 'center',
+            } : undefined}
+          />
+        )}
+        <Card.Text className="small">{project.description}</Card.Text>
       </Card.Body>
       <Card.Footer className="d-flex justify-content-between align-items-center">
         <Link
@@ -95,8 +115,13 @@ function ProjectCard({ project, onVote }) {
           Click for deep dive →
         </Link>
         <span
-          className="vote-btn"
-          onClick={(e) => { e.stopPropagation(); onVote(project.id); }}
+          className={voteBtnClass}
+          onClick={(e) => {
+            e.stopPropagation();
+            setJumping(true);
+            onVote(project.id);
+          }}
+          onAnimationEnd={() => setJumping(false)}
           style={{ cursor: 'pointer' }}
         >
           <FaArrowUp /> {project.votes}

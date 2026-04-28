@@ -43,6 +43,21 @@ function ProjectDetail() {
         ))}
         </div>
 
+      {project.screenshot && (
+        <img
+          className="project-screenshot project-screenshot--detail"
+          src={`${import.meta.env.BASE_URL}${project.screenshot.replace(/^\//, '')}`}
+          alt={project.screenshotAlt || `${project.title} screenshot`}
+          style={project.screenshotAspectRatio ? {
+            aspectRatio: project.screenshotAspectRatio,
+            height: 'auto',
+            maxHeight: 'none',
+            objectFit: 'cover',
+            objectPosition: 'center',
+          } : undefined}
+        />
+      )}
+
       <h4 className="mt-4">Overview</h4>
       <p>{project.description}</p>
 

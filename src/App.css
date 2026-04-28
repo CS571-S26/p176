@@ -887,6 +887,24 @@ footer.bg-dark {
   transition: transform 0.2s;
 }
 
+.project-screenshot {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 0.75rem;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.dark-mode .project-screenshot {
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.project-screenshot--detail {
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+}
+
 /* Dark-mode text colors for project cards. Title + description go full
    white; tagline (the .text-muted card-subtitle) lifts to a very light
    slate so it still reads as "secondary" without being unreadable. The
@@ -1010,6 +1028,41 @@ footer.bg-dark {
   filter:
     drop-shadow(0 -0.5px 0.5px rgba(255, 255, 255, 0.25))
     drop-shadow(0 0 3px rgba(255, 255, 255, 0.08));
+}
+
+/* Hover shake on the upvote arrow — only for cards the user has not yet
+   upvoted this session. Targets the SVG so the count text stays put.
+   transform-origin near the arrow's base so it rocks rather than orbits. */
+.vote-btn--unclicked:hover svg {
+  animation: vote-shake 0.45s ease-in-out infinite;
+  transform-origin: center 70%;
+}
+
+/* One-shot bounce fired when the user clicks. ProjectCard clears the
+   --jumping class on animationend; the parent flips hasClicked on the
+   same click so hover-shake never compounds with the jump. */
+.vote-btn--jumping svg {
+  animation: vote-jump 0.5s ease-out;
+}
+
+@keyframes vote-shake {
+  0%, 100% { transform: rotate(0); }
+  25%      { transform: rotate(-10deg); }
+  75%      { transform: rotate(10deg); }
+}
+
+@keyframes vote-jump {
+  0%   { transform: translateY(0)     scale(1); }
+  35%  { transform: translateY(-10px) scale(1.15); }
+  70%  { transform: translateY(2px)   scale(0.95); }
+  100% { transform: translateY(0)     scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vote-btn--unclicked:hover svg,
+  .vote-btn--jumping svg {
+    animation: none;
+  }
 }
 
 /* Project / timeline card titles that point to an external project URL.
@@ -1370,6 +1423,10 @@ footer.bg-dark {
 
 .dark-mode .resume-filter-chip:hover {
   background-color: color-mix(in srgb, var(--chip-color) 22%, transparent);
+}
+
+.dark-mode .resume-filter-label {
+  color: #fff !important;
 }
 
 @media (prefers-reduced-motion: reduce) {

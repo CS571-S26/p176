@@ -7,7 +7,7 @@ export const skillCategories = [
   { id: 'frameworks',    label: 'Frameworks',     color: '#16a34a', skills: ['React', 'FastAPI', 'Spring Boot', 'Flask', 'Express'] },
   { id: 'devops',        label: 'DevOps & Cloud', color: '#ea580c', skills: ['Docker', 'Kubernetes', 'AWS'] },
   { id: 'observability', label: 'Observability',  color: '#dc2626', skills: ['Prometheus', 'Grafana', 'OpenTelemetry', 'Jaeger'] },
-  { id: 'databases',     label: 'Databases',      color: '#9333ea', skills: ['PostgreSQL', 'MongoDB', 'Redis', 'Supabase'] },
+  { id: 'databases',     label: 'Databases',      color: '#9333ea', skills: ['PostgreSQL', 'MongoDB', 'Redis', 'Supabase', 'Flyway'] },
   { id: 'ai',            label: 'AI & LLM',       color: '#0891b2', skills: ['Gemini API', 'scikit-learn', 'NLP', 'OpenAI', 'LangChain'] },
   { id: 'other-tools',   label: 'Other Tools',    color: '#64748b', skills: ['Git', 'Google Maps API', 'Google Books API', 'JWT', 'REST', 'Scrum', 'Postman', 'Unit Testing'] },
   { id: 'learning',      label: 'Currently Learning', color: '#ca8a04', skills: ['Databricks', 'Apache Spark', 'Delta Lake', 'MLflow'] },

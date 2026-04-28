@@ -27,6 +27,7 @@ function Home() {
       return projectsData;
     }
   });
+  const [clickedThisSession, setClickedThisSession] = useState(() => new Set());
   const [selectedTags, setSelectedTags] = useState([]);
   const [showFilters, setShowFilters] = useState(false);
   const [search, setSearch] = useState('');
@@ -70,6 +71,12 @@ function Home() {
         const votesMap = Object.fromEntries(next.map(p => [p.id, p.votes]));
         localStorage.setItem(VOTES_STORAGE_KEY, JSON.stringify(votesMap));
       } catch {}
+      return next;
+    });
+    setClickedThisSession(prev => {
+      if (prev.has(id)) return prev;
+      const next = new Set(prev);
+      next.add(id);
       return next;
     });
   };
@@ -130,7 +137,11 @@ function Home() {
             <Row xs={1} md={2} className="g-4">
               {filtered.map(project => (
                 <Col key={project.id}>
-                  <ProjectCard project={project} onVote={handleVote} />
+                  <ProjectCard
+                    project={project}
+                    onVote={handleVote}
+                    hasClicked={clickedThisSession.has(project.id)}
+                  />
                 </Col>
               ))}
             </Row>

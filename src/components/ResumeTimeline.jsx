@@ -56,7 +56,7 @@ function ResumeTimeline({ orientation = 'vertical' }) {
         )}
       </div>
       <div className="d-flex align-items-center gap-2 flex-wrap mb-4">
-        <small className="text-muted me-1">Filter by:</small>
+        <small className="text-muted me-1 resume-filter-label">Filter by:</small>
         {filters.map(f => {
           const active = filter === f.value;
           return (

@@ -71,6 +71,8 @@ const timeline = [
       'Enabled onboarding of 55+ new enterprise clients post-launch',
     ],
     link: '/#/experience/1',
+    liveUrl: 'https://www.smartcert.tech/',
+    previewImage: '/SmarCert.png',
   },
   {
     id: 3,

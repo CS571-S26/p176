@@ -4,8 +4,11 @@ const projects = [
     title: "Prometheon",
     tagline: "AI Root Cause Analysis & Chaos Engineering Platform",
     description:
-      "A multi-tenant chaos engineering platform on Kubernetes. Users define their microservice topologies, deploy isolated per-tenant sandboxes via a namespace lifecycle API, and run failure experiments with real-time root cause analysis over an OpenTelemetry + Prometheus + Jaeger pipeline.",
+      "A multi-tenant chaos engineering platform on Kubernetes. Users define their system and microservices, deploy isolated per-tenant sandboxes via a namespace lifecycle API, and run failure experiments with real time root cause analysis over an OpenTelemetry + Prometheus + Jaeger observability pipeline.",
     image: "/og-image.png",
+    screenshot: "/demo_p1.png",
+    screenshotAlt:
+      "Prometheon dashboard screenshot showing the chaos engineering experiment view with a microservice topology diagram, OpenTelemetry trace timeline, and ranked root-cause analysis results.",
     tags: [
       "Python",
       "JavaScript",
@@ -14,15 +17,15 @@ const projects = [
       "Docker",
       "Kubernetes",
       "AWS",
-      "Prometheus",
-      "Grafana",
-      "OpenTelemetry",
-      "Jaeger",
       "PostgreSQL",
       "Redis",
       "scikit-learn",
       "NLP",
       "OpenAI",
+      "Prometheus",
+      "Grafana",
+      "OpenTelemetry",
+      "Jaeger",
       "JWT",
       "REST",
       "Postman",
@@ -48,8 +51,11 @@ const projects = [
     title: "SmartCert",
     tagline: "AI-powered aerospace compliance platform",
     description:
-      "Async document-processing backend that uses Google Gemini to analyze aerospace certification documents against regulatory standards. Cut manual compliance review from hours to minutes. (See the Experience page for the deep dive — this was my SmartCert internship role.)",
-    image: "/smartcert.png",
+      "Async document processing backend that uses Google Gemini to analyze aerospace certification documents against regulatory standards. Cut manual compliance review from hours to minutes (75%). (See the Experience page for the deep dive).",
+    image: "/SmarCert.png",
+    screenshot: "/SmarCert.png",
+    screenshotAlt:
+      "SmartCert platform screenshot showing the aerospace certification document review interface with AI-extracted compliance findings and confidence scores.",
     tags: ["Python", "JavaScript", "FastAPI", "React", "Docker", "MongoDB", "Gemini API", "NLP", "REST", "Postman", "Unit Testing", "Git", "Scrum"],
     highlights: [
       "Engineered an LLM validation pipeline with prompt engineering, schema enforcement, confidence scoring, and cascading fallback logic.",
@@ -62,7 +68,7 @@ const projects = [
     outcome:
       "Production platform at Aramid Technologies. See the /experience/1 page for role, technical decisions, and ownership detail.",
     github: null,
-    live: null,
+    live: "https://www.smartcert.tech/",
     votes: 0,
   },
   {
@@ -70,11 +76,14 @@ const projects = [
     title: "BookShelf",
     tagline: "Full-stack library management application",
     description:
-      "A Java Spring Boot application with React frontend for managing book collections, reading status, and reviews. Layered architecture (Controller / Service / Repository / Entity), JWT-based RBAC, Google Books API integration, and Flyway schema migrations.",
-    image: "/bookshelf.png",
+      "A Java Spring Boot application with React frontend for managing book collections, reading status, and reviews. Layered architecture (Controller / Service / Repository / Entity), secure JWT based role based access control, Google Books API integration, and Flyway schema migrations.",
+    image: "/demo-library.png",
+    screenshot: "/demo-library.png",
+    screenshotAlt:
+      "BookShelf application screenshot showing the personal library catalog view with book covers, reading status badges, and JWT-protected admin actions.",
     tags: ["Java", "Spring Boot", "React", "PostgreSQL", "Flyway", "Docker", "Google Books API", "JWT", "REST", "Postman", "Unit Testing", "Git"],
     highlights: [
-      "Implemented JWT authentication with role-based access control, securing REST endpoints via a custom Spring Security filter chain.",
+      "Implemented JWT authentication with role based access control, securing REST endpoints via a custom Spring Security filter chain.",
       "Integrated the Google Books API using reactive WebClient for non-blocking metadata retrieval and catalog enrichment.",
       "Engineered paginated query endpoints and idempotent import logic for duplicate detection and bulk catalog operations.",
       "Ensured data consistency at scale through Flyway schema migrations and Docker containerization.",
@@ -91,9 +100,12 @@ const projects = [
     title: "MadSnowi",
     tagline: "Safe Route Optimization Platform",
     description:
-      "A Flask + Supabase (PostgreSQL) + Google Maps API platform combining traffic, weather, and Wisconsin DOT data into safety-aware routing. An AI-powered hazard reporting feature turns short user observations into structured incident reports with location context.",
-    image: "/madsnowi.png",
-    tags: ["Python", "JavaScript", "TypeScript", "React", "Flask", "PostgreSQL", "Supabase", "Google Maps API", "NLP", "REST", "Git"],
+      "A Flask + Supabase + Google Maps API platform combining traffic, weather, and Wisconsin DOT data into safety-aware routing. An AI hazard reporting feature turns short user observations into structured incident reports with location context.",
+    image: "/mad_demo_new.png",
+    screenshot: "/mad_demo_new.png",
+    screenshotAlt:
+      "MadSnowi platform screenshot showing the safety-aware route map with hazard overlays, weather/traffic layers, and AI-generated incident reports for Wisconsin roads.",
+    tags: ["Python", "JavaScript", "TypeScript", "React", "Flask", "PostgreSQL", "Supabase", "NLP", "Google Maps API", "REST", "Git"],
     highlights: [
       "Safety scoring system that ranks and visualizes hazardous road segments in real time, improving route decisions under adverse conditions.",
       "AI-powered hazard reporting: short user observations → structured incident reports using location context and NLP.",
