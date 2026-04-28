@@ -4,6 +4,7 @@ import { FaArrowLeft, FaGithub, FaExternalLinkAlt } from 'react-icons/fa';
 import projects from '../data/projects';
 import { getTagStyle } from '../data/skillColors';
 import SkillBadge from '../components/SkillBadge';
+import AuroraBackground from '../components/AuroraBackground';
 
 function ProjectDetail() {
   const { id } = useParams();
@@ -16,10 +17,17 @@ function ProjectDetail() {
   const from = location.state?.from === 'resume' ? 'resume' : 'projects';
   const backLabel = from === 'resume' ? 'Back to resume' : 'Back to all projects';
 
-  if (!project) return <Container className="py-5"><h2>Project not found</h2></Container>;
+  if (!project) return (
+    <>
+      <AuroraBackground />
+      <Container className="py-5 detail-page"><h2>Project not found</h2></Container>
+    </>
+  );
 
   return (
-    <Container className="py-5" style={{ maxWidth: '800px' }}>
+    <>
+    <AuroraBackground />
+    <Container className="py-5 detail-page" style={{ maxWidth: '800px' }}>
       <Button
         variant="link"
         onClick={() => navigate('/', { state: { scrollTo: from } })}
@@ -64,6 +72,7 @@ function ProjectDetail() {
         )}
       </div>
     </Container>
+    </>
   );
 }
 

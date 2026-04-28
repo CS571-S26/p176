@@ -5,21 +5,28 @@ const projects = [
     tagline: "AI Root Cause Analysis & Chaos Engineering Platform",
     description:
       "A multi-tenant chaos engineering platform on Kubernetes. Users define their microservice topologies, deploy isolated per-tenant sandboxes via a namespace lifecycle API, and run failure experiments with real-time root cause analysis over an OpenTelemetry + Prometheus + Jaeger pipeline.",
-    image: "/prometheon.png",
+    image: "/og-image.png",
     tags: [
       "Python",
+      "JavaScript",
       "FastAPI",
       "React",
-      "Kubernetes",
       "Docker",
+      "Kubernetes",
+      "AWS",
+      "Prometheus",
+      "Grafana",
+      "OpenTelemetry",
+      "Jaeger",
       "PostgreSQL",
       "Redis",
-      "OpenTelemetry",
-      "Prometheus",
-      "Jaeger",
-      "OpenAI API",
       "scikit-learn",
-      "JavaScript",
+      "NLP",
+      "OpenAI",
+      "JWT",
+      "REST",
+      "Postman",
+      "Unit Testing",
       "Git",
     ],
     highlights: [
@@ -43,7 +50,7 @@ const projects = [
     description:
       "Async document-processing backend that uses Google Gemini to analyze aerospace certification documents against regulatory standards. Cut manual compliance review from hours to minutes. (See the Experience page for the deep dive — this was my SmartCert internship role.)",
     image: "/smartcert.png",
-    tags: ["Python", "FastAPI", "MongoDB", "Google Gemini", "Docker", "React", "JavaScript", "Git", "Scrum"],
+    tags: ["Python", "JavaScript", "FastAPI", "React", "Docker", "MongoDB", "Gemini API", "NLP", "REST", "Postman", "Unit Testing", "Git", "Scrum"],
     highlights: [
       "Engineered an LLM validation pipeline with prompt engineering, schema enforcement, confidence scoring, and cascading fallback logic.",
       "Async Python/FastAPI + MongoDB serving 1,500+ manufacturing clients across 20+ countries.",
@@ -65,7 +72,7 @@ const projects = [
     description:
       "A Java Spring Boot application with React frontend for managing book collections, reading status, and reviews. Layered architecture (Controller / Service / Repository / Entity), JWT-based RBAC, Google Books API integration, and Flyway schema migrations.",
     image: "/bookshelf.png",
-    tags: ["Java", "Spring Boot", "React", "PostgreSQL", "Flyway", "Docker", "JWT", "Git"],
+    tags: ["Java", "Spring Boot", "React", "PostgreSQL", "Flyway", "Docker", "Google Books API", "JWT", "REST", "Postman", "Unit Testing", "Git"],
     highlights: [
       "Implemented JWT authentication with role-based access control, securing REST endpoints via a custom Spring Security filter chain.",
       "Integrated the Google Books API using reactive WebClient for non-blocking metadata retrieval and catalog enrichment.",
@@ -86,7 +93,7 @@ const projects = [
     description:
       "A Flask + Supabase (PostgreSQL) + Google Maps API platform combining traffic, weather, and Wisconsin DOT data into safety-aware routing. An AI-powered hazard reporting feature turns short user observations into structured incident reports with location context.",
     image: "/madsnowi.png",
-    tags: ["Python", "Flask", "Supabase", "PostgreSQL", "Google Maps API", "NLP", "TypeScript", "React", "JavaScript", "Git"],
+    tags: ["Python", "JavaScript", "TypeScript", "React", "Flask", "PostgreSQL", "Supabase", "Google Maps API", "NLP", "REST", "Git"],
     highlights: [
       "Safety scoring system that ranks and visualizes hazardous road segments in real time, improving route decisions under adverse conditions.",
       "AI-powered hazard reporting: short user observations → structured incident reports using location context and NLP.",

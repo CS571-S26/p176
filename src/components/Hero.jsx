@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Container, Button } from 'react-bootstrap';
-import { FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa';
+import { SiGithub } from 'react-icons/si';
+import { BsLinkedin } from 'react-icons/bs';
+import { Mail } from 'lucide-react';
 import { TypeAnimation } from 'react-type-animation';
 
 const FULL_HEADING = "Hi! I'm Jatin";
@@ -47,10 +49,11 @@ function Hero() {
           </p>
           <div className="mt-4 d-flex justify-content-center gap-3 hero-actions">
             <Button
-              variant="primary"
+              variant="outline-light"
+              className="hero-projects-btn"
               onClick={() => document.getElementById('projects').scrollIntoView({ behavior: 'smooth' })}
             >
-              View Projects
+              <span className="brand-portfolio">View Projects</span>
             </Button>
             <Button
               variant="light"
@@ -63,13 +66,13 @@ function Hero() {
           </div>
           <div className="mt-4 d-flex justify-content-center gap-4 fs-4 hero-actions">
             <a href="https://github.com/JatUppal" target="_blank" rel="noreferrer" aria-label="GitHub">
-              <FaGithub />
+              <SiGithub />
             </a>
             <a href="https://www.linkedin.com/in/jatin-uppal/" target="_blank" rel="noreferrer" aria-label="LinkedIn">
-              <FaLinkedin />
+              <BsLinkedin />
             </a>
             <a href="mailto:jatinuppal55@gmail.com" aria-label="Email">
-              <FaEnvelope />
+              <Mail strokeWidth={1.5} size={28} />
             </a>
           </div>
         </div>

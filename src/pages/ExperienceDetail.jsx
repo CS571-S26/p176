@@ -3,6 +3,7 @@ import { Container, Button, ListGroup } from 'react-bootstrap';
 import { FaArrowLeft, FaBriefcase } from 'react-icons/fa';
 import experience from '../data/experience';
 import SkillBadge from '../components/SkillBadge';
+import AuroraBackground from '../components/AuroraBackground';
 
 function ExperienceDetail() {
   const { id } = useParams();
@@ -11,14 +12,19 @@ function ExperienceDetail() {
 
   if (!role) {
     return (
-      <Container className="py-5">
-        <h2>Experience not found</h2>
-      </Container>
+      <>
+        <AuroraBackground />
+        <Container className="py-5 detail-page">
+          <h2>Experience not found</h2>
+        </Container>
+      </>
     );
   }
 
   return (
-    <Container className="py-5" style={{ maxWidth: '800px' }}>
+    <>
+    <AuroraBackground />
+    <Container className="py-5 detail-page" style={{ maxWidth: '800px' }}>
       <Button
         variant="link"
         onClick={() => navigate('/', { state: { scrollTo: 'resume' } })}
@@ -78,6 +84,7 @@ function ExperienceDetail() {
         <p className="text-muted fst-italic mt-4 small">{role.links.note}</p>
       )}
     </Container>
+    </>
   );
 }
 

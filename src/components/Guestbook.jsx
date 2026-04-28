@@ -3,9 +3,9 @@ import { Form, Button, ListGroup } from 'react-bootstrap';
 import { FaTimes } from 'react-icons/fa';
 import { Trash2 } from 'lucide-react';
 
-const STORAGE_KEY = 'p176:guestbook';
+const STORAGE_KEY = 'p176:guestbook-v2';
 const SEED_ENTRIES = [
-  { id: 'seed-0', name: 'Visitor', message: 'Cool portfolio!', date: '2026-03-15' }
+  { id: 'seed-0', name: 'Visitor', message: 'Cool portfolio!', date: '03/15/2026' }
 ];
 
 function Guestbook() {
@@ -43,33 +43,40 @@ function Guestbook() {
   return (
     <>
       <h5>Guestbook</h5>
-      <Form onSubmit={handleSubmit} className="mb-3">
+      <Form onSubmit={handleSubmit} className="aurora-form mb-3">
         <Form.Control placeholder="Your name" className="mb-2" value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} required />
         <Form.Control placeholder="Leave a note!" className="mb-2" value={form.message} onChange={e => setForm({ ...form, message: e.target.value })} required />
-        <Button type="submit" variant="outline-primary" size="sm">Post</Button>
+        <div className="d-flex justify-content-between align-items-center">
+          <Button type="submit" variant="outline-primary" size="sm">Post</Button>
+          <small className="text-muted">
+            {entries.length} {entries.length === 1 ? 'comment' : 'comments'}
+          </small>
+        </div>
       </Form>
-      <ListGroup variant="flush">
-        {entries.map((entry, i) => (
-          <ListGroup.Item key={entry.id || i} className="d-flex justify-content-between align-items-start">
-            <div className="flex-grow-1">
-              <strong>{entry.name}</strong> <small className="text-muted">· {entry.date}</small>
-              <p className="mb-0 small">{entry.message}</p>
-            </div>
-            {entry.mine && entry.id && (
-              <Button
-                variant="link"
-                size="sm"
-                className="text-muted p-0 ms-2 delete-btn"
-                onClick={() => handleDelete(entry.id)}
-                aria-label="Delete your post"
-                title="Delete your post"
-              >
-                <Trash2 />
-              </Button>
-            )}
-          </ListGroup.Item>
-        ))}
-      </ListGroup>
+      <div className="neon-card guestbook-card">
+        <ListGroup variant="flush" className="guestbook-list">
+          {entries.map((entry, i) => (
+            <ListGroup.Item key={entry.id || i} className="d-flex justify-content-between align-items-start">
+              <div className="flex-grow-1">
+                <strong>{entry.name}</strong> <small className="text-muted">· {entry.date}</small>
+                <p className="mb-0 small">{entry.message}</p>
+              </div>
+              {entry.mine && entry.id && (
+                <Button
+                  variant="link"
+                  size="sm"
+                  className="text-muted p-0 ms-2 delete-btn"
+                  onClick={() => handleDelete(entry.id)}
+                  aria-label="Delete your post"
+                  title="Delete your post"
+                >
+                  <Trash2 />
+                </Button>
+              )}
+            </ListGroup.Item>
+          ))}
+        </ListGroup>
+      </div>
     </>
   );
 }

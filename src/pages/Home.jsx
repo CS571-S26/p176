@@ -4,8 +4,9 @@ import { Container, Row, Col, Form, Button, Badge } from 'react-bootstrap';
 import { FaChevronDown } from 'react-icons/fa';
 import { IoFilter } from 'react-icons/io5';
 import Hero from '../components/Hero';
+import AuroraBackground from '../components/AuroraBackground';
 import ProjectCard from '../components/ProjectCard';
-import SkillGrid from '../components/SkillGrid';
+import SkillsPillsSection from '../components/SkillsPillsSection';
 import ContactForm from '../components/ContactForm';
 import Guestbook from '../components/Guestbook';
 import ResumeTimeline from '../components/ResumeTimeline';
@@ -49,9 +50,11 @@ function Home() {
   }, [location]);
 
   const filtered = projects.filter(p => {
+    const q = search.toLowerCase();
     const matchesSearch =
-      p.title.toLowerCase().includes(search.toLowerCase()) ||
-      p.description.toLowerCase().includes(search.toLowerCase());
+      p.title.toLowerCase().includes(q) ||
+      p.description.toLowerCase().includes(q) ||
+      p.tags.some(tag => tag.toLowerCase().includes(q));
     const matchesTags =
       selectedTags.length === 0 ||
       selectedTags.some(tag => p.tags.includes(tag));
@@ -73,19 +76,21 @@ function Home() {
 
   return (
     <>
+      <AuroraBackground />
       <Hero />
 
       <section id="projects" className="py-5">
         <Container>
-          <h2 className="text-center fw-bold mb-4">Projects</h2>
+          <h2 className="text-center display-6 fw-bold mb-4">Projects</h2>
           <div className="d-flex gap-2 mb-4">
-            <Form.Control
-              type="text"
-              placeholder="Search projects..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="flex-grow-1"
-            />
+            <div className="aurora-form flex-grow-1">
+              <Form.Control
+                type="text"
+                placeholder="Search by projects or skills..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+            </div>
             <Button
               ref={filterBtnRef}
               variant={selectedTags.length > 0 ? 'primary' : 'outline-primary'}
@@ -133,10 +138,9 @@ function Home() {
         </Container>
       </section>
 
-      <section id="skills" className="py-5 bg-light">
+      <section id="skills" className="py-5">
         <Container>
-          <h2 className="text-center fw-bold mb-4">Skills</h2>
-          <SkillGrid />
+          <SkillsPillsSection />
         </Container>
       </section>
 
@@ -162,9 +166,9 @@ function Home() {
         </Container>
       </section>
 
-      <section id="contact" className="py-5 bg-light">
+      <section id="contact" className="py-5">
         <Container>
-          <h2 className="text-center fw-bold mb-4">Contact</h2>
+          <h2 className="text-center display-6 fw-bold mb-4">Contact</h2>
           <Row>
             <Col md={6}><ContactForm /></Col>
             <Col md={6}><Guestbook /></Col>

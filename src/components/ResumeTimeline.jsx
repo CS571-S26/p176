@@ -24,13 +24,15 @@ function ResumeTimeline({ orientation = 'vertical' }) {
       )
     : filtered;
 
-  const headingClass = isHorizontal ? 'display-6 fw-bold mb-0' : 'fw-bold mb-0';
+  const headingClass = isHorizontal ? 'display-5 fw-bold mb-0' : 'display-6 fw-bold mb-0';
   const buttonSize = undefined; // default size on both modes (down from 'lg' on horizontal)
 
   return (
     <>
-      <div className="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
-        <h2 className={headingClass}>Resume</h2>
+      <div className="text-center mb-3">
+        <h2 className={headingClass}>Timeline</h2>
+      </div>
+      <div className="d-flex justify-content-end mb-3 flex-wrap gap-2">
         {isHorizontal ? (
           <Button
             variant="light"

@@ -37,13 +37,13 @@ function FilterPopover({ target, show, onHide, selectedTags, onToggleTag, onClea
           </Button>
         </Popover.Header>
         <Popover.Body>
-          {Object.entries(skillCategories).map(([cat, { color, skills }]) => (
-            <div key={cat} className="mb-3">
+          {skillCategories.map(({ id, label, color, skills }) => (
+            <div key={id} className="mb-3">
               <small
                 className="fw-bold d-block mb-2"
                 style={{ color, letterSpacing: '0.5px' }}
               >
-                {cat.toUpperCase()}
+                {label.toUpperCase()}
               </small>
               <div className="d-flex flex-wrap gap-1">
                 {skills.map(skill => {

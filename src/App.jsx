@@ -1,6 +1,7 @@
 import { HashRouter as Router, Routes, Route, useLocation, useNavigationType } from 'react-router-dom';
 import NavigationBar from './components/Navbar';
 import Footer from './components/Footer';
+import ShootingStar from './components/ShootingStar';
 import Home from './pages/Home';
 import ProjectDetail from './pages/ProjectDetail';
 import ExperienceDetail from './pages/ExperienceDetail';
@@ -64,12 +65,50 @@ function ScrollManager() {
   return null;
 }
 
+const DARK_MODE_STORAGE_KEY = 'p176:dark-mode';
+
 function App() {
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(() => {
+    try {
+      return localStorage.getItem(DARK_MODE_STORAGE_KEY) === 'true';
+    } catch {
+      return false;
+    }
+  });
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(DARK_MODE_STORAGE_KEY, String(darkMode));
+    } catch {}
+  }, [darkMode]);
+
   return (
     <Router>
       <ScrollManager />
       <div className={darkMode ? 'app dark-mode' : 'app'}>
+        {/* Global SVG gradient defs — referenced via CSS fill:url(#id).
+            Used by the project-card upvote arrow to render with a metallic
+            base-to-tip gradient instead of a solid color. Hidden 0×0. */}
+        <svg
+          width="0"
+          height="0"
+          style={{ position: 'absolute' }}
+          aria-hidden="true"
+          focusable="false"
+        >
+          <defs>
+            <linearGradient id="upvote-gradient-light" x1="0%" y1="100%" x2="0%" y2="0%">
+              <stop offset="0%" stopColor="#3b82f6" />
+              <stop offset="50%" stopColor="#6366f1" />
+              <stop offset="100%" stopColor="#a78bfa" />
+            </linearGradient>
+            <linearGradient id="upvote-gradient-dark" x1="0%" y1="100%" x2="0%" y2="0%">
+              <stop offset="0%" stopColor="#0f766e" />
+              <stop offset="55%" stopColor="#14b8a6" />
+              <stop offset="100%" stopColor="#a7f3d0" />
+            </linearGradient>
+          </defs>
+        </svg>
         <NavigationBar darkMode={darkMode} setDarkMode={setDarkMode} />
         <main className="app-main">
           <Routes>
@@ -80,6 +119,7 @@ function App() {
           </Routes>
         </main>
         <Footer />
+        <ShootingStar darkMode={darkMode} />
       </div>
     </Router>
   );

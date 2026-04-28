@@ -1,53 +1,32 @@
-const skillCategories = {
-  Languages: {
-    color: '#4fc3f7',
-    bg: '#e1f5fe',
-    skills: ['Python', 'Java', 'JavaScript', 'Go', 'TypeScript']
-  },
-  Frameworks: {
-    color: '#81c784',
-    bg: '#e8f5e9',
-    skills: ['React', 'FastAPI', 'Spring Boot', 'Flask']
-  },
-  'DevOps & Cloud': {
-    color: '#ffb74d',
-    bg: '#fff3e0',
-    skills: ['Docker', 'Kubernetes', 'AWS']
-  },
-  'AI & LLM': {
-    color: '#1a5b72ff',
-    bg: '#b5dbe8ff',
-    skills: ['scikit-learn', 'Gemini API', 'OpenAI API', 'NLP']
-  },
-  Observability: {
-    color: '#ef5350',
-    bg: '#ffebee',
-    skills: ['Prometheus', 'Grafana', 'OpenTelemetry', 'Jaeger']
-  },
-  Databases: {
-    color: '#ce93d8',
-    bg: '#f3e5f5',
-    skills: ['PostgreSQL', 'MongoDB', 'Supabase', 'Flyway', 'Redis']
-  },
-  'Other Tools': {
-    color: '#90a4ae',
-    bg: '#eceff1',
-    skills: ['Git', 'Google Maps API', 'JWT', 'Scrum']
-  }
-};
+// Tag styling for project cards / detail pages. The category structure and
+// colors are imported from skillsSection.js so the Skills section and the
+// project-card tag badges stay in sync — change a category color in one
+// place and both surfaces update.
+
+import { skillCategories } from './skillsSection';
+
+const FALLBACK_COLOR = '#94a3b8'; // slate-400 — for tags not in any category
 
 export function getTagStyle(tag) {
-  for (const category of Object.values(skillCategories)) {
-    if (category.skills.includes(tag)) {
-      return { backgroundColor: category.color, color: '#fff', border: `1px solid ${category.color}` };
+  for (const cat of skillCategories) {
+    if (cat.skills.includes(tag)) {
+      return {
+        backgroundColor: cat.color,
+        color: '#fff',
+        border: `1px solid ${cat.color}`,
+      };
     }
   }
-  return { backgroundColor: '#90a4ae', color: '#fff', border: '1px solid #90a4ae' };
+  return {
+    backgroundColor: FALLBACK_COLOR,
+    color: '#fff',
+    border: `1px solid ${FALLBACK_COLOR}`,
+  };
 }
 
 export function getTagCategory(tag) {
-  for (const [category, data] of Object.entries(skillCategories)) {
-    if (data.skills.includes(tag)) return category;
+  for (const cat of skillCategories) {
+    if (cat.skills.includes(tag)) return cat.label;
   }
   return 'Other Tools';
 }

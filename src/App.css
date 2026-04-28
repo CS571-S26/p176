@@ -20,9 +20,446 @@
   color: #dc3545 !important;
 }
 
+/* In dark mode, .dark-mode .guestbook-list .text-muted (3 classes) outranks
+   .delete-btn:hover (1 class + 1 pseudo), so the hover red was getting
+   masked. Re-assert the hover red with matching specificity. */
+.dark-mode .guestbook-list .delete-btn:hover,
+.dark-mode .guestbook-list .delete-btn:focus {
+  color: #dc3545 !important;
+}
+
+/* Guestbook comments list — transparent so the aurora shows through.
+   The neon ring border lives on the .guestbook-card wrapper (not this
+   element), so this is just the inner scroll container. Capped at 3 visible
+   comments; older entries scroll inside the box. The 10px radius fits cleanly
+   inside the wrapper's 12px ring (12 outer - 2 ring = 10 inner). */
+.guestbook-list {
+  --bs-list-group-bg: transparent;
+  border: none;
+  border-radius: 10px;
+  padding: 0.25rem 0.75rem;
+  max-height: 210px;
+  overflow-y: auto;
+  box-shadow:
+    inset 0 0 18px rgba(59, 130, 246, 0.35),
+    inset 0 0 40px rgba(99, 102, 241, 0.22),
+    inset 0 0 70px rgba(167, 139, 250, 0.14);
+}
+
+.dark-mode .guestbook-list {
+  box-shadow:
+    inset 0 0 18px rgba(45, 212, 191, 0.4),
+    inset 0 0 40px rgba(20, 184, 166, 0.25),
+    inset 0 0 70px rgba(94, 234, 212, 0.16);
+}
+
+.guestbook-list::-webkit-scrollbar { width: 6px; }
+.guestbook-list::-webkit-scrollbar-track { background: transparent; }
+.guestbook-list::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.18);
+  border-radius: 3px;
+}
+.dark-mode .guestbook-list::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* Forms with .aurora-form — transparent inputs with a per-input neon glow
+   that mirrors the .neon-card ring palette: violet/indigo in light mode,
+   emerald/teal in dark mode. Focus intensifies the same hue. Used by
+   ContactForm and Guestbook. */
+.aurora-form .form-control {
+  background-color: transparent;
+  border: 1.5px solid rgba(96, 165, 250, 0.85);
+  box-shadow:
+    0 0 18px rgba(59, 130, 246, 0.65),
+    0 0 40px rgba(99, 102, 241, 0.4),
+    0 0 64px rgba(167, 139, 250, 0.28);
+  color: inherit;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.aurora-form .form-control::placeholder {
+  color: #94a3b8;
+  opacity: 1;
+}
+
+.aurora-form .form-control:focus {
+  background-color: transparent;
+  border-color: rgba(96, 165, 250, 1);
+  box-shadow:
+    0 0 26px rgba(59, 130, 246, 0.85),
+    0 0 56px rgba(99, 102, 241, 0.55),
+    0 0 86px rgba(167, 139, 250, 0.4);
+  color: inherit;
+}
+
+.aurora-form .form-control:disabled {
+  background-color: transparent;
+  opacity: 0.65;
+}
+
+.dark-mode .aurora-form .form-control {
+  background-color: transparent;
+  border: 1.5px solid rgba(94, 234, 212, 0.7);
+  box-shadow:
+    0 0 18px rgba(45, 212, 191, 0.55),
+    0 0 40px rgba(20, 184, 166, 0.35),
+    0 0 64px rgba(94, 234, 212, 0.22);
+  color: #e2e8f0;
+}
+
+.dark-mode .aurora-form .form-control::placeholder {
+  color: #64748b;
+}
+
+.dark-mode .aurora-form .form-control:focus {
+  background-color: transparent;
+  border-color: rgba(94, 234, 212, 1);
+  box-shadow:
+    0 0 26px rgba(45, 212, 191, 0.75),
+    0 0 56px rgba(20, 184, 166, 0.5),
+    0 0 86px rgba(94, 234, 212, 0.35);
+  color: #f1f5f9;
+}
+
+/* Animated neon gradient border (port of Magic UI's NeonGradientCard).
+   ::before is a 2px ring (gradient + mask-composite trick that carves out the
+   inside so the rectangle stays transparent). Color stops mirror the
+   brand-portfolio gradient and aurora palette. */
+.neon-card {
+  position: relative;
+  border-radius: 12px;
+  isolation: isolate;
+}
+
+.neon-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 2px;
+  background: linear-gradient(
+    135deg,
+    #3b82f6 0%,
+    #6366f1 25%,
+    #a78bfa 50%,
+    #6366f1 75%,
+    #3b82f6 100%
+  );
+  background-size: 300% 300%;
+  animation: neon-flow 5s linear infinite;
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+          mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  pointer-events: none;
+  z-index: 1;
+}
+
+@keyframes neon-flow {
+  0%   { background-position: 0% 50%; }
+  100% { background-position: 300% 50%; }
+}
+
+.dark-mode .neon-card::before {
+  background: linear-gradient(
+    135deg,
+    #10b981 0%,
+    #14b8a6 25%,
+    #5eead4 50%,
+    #14b8a6 75%,
+    #10b981 100%
+  );
+  background-size: 300% 300%;
+}
+
+/* The Guestbook comments wrapper carries the neon ring (via .neon-card) and a
+   wide layered halo that matches the input-glow palette. Splitting the ring
+   onto an outer wrapper means the inner .guestbook-list is the only scroll
+   container, so comments scroll without pushing past the fixed border. */
+.guestbook-card {
+  box-shadow:
+    0 0 26px rgba(59, 130, 246, 0.45),
+    0 0 60px rgba(99, 102, 241, 0.3),
+    0 0 100px rgba(167, 139, 250, 0.2);
+}
+
+.dark-mode .guestbook-card {
+  box-shadow:
+    0 0 26px rgba(45, 212, 191, 0.5),
+    0 0 60px rgba(20, 184, 166, 0.32),
+    0 0 100px rgba(94, 234, 212, 0.2);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .neon-card::before { animation: none; }
+}
+
+.guestbook-list .list-group-item {
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+.dark-mode .guestbook-list .list-group-item {
+  border-color: rgba(255, 255, 255, 0.08);
+  color: #f1f5f9;
+}
+
+/* Lighten the date stamp + any other muted text inside guestbook comments
+   so it stays readable on the dark background. Scoped to .guestbook-list
+   so it doesn't affect project taglines (which keep the global dark grey). */
+.dark-mode .guestbook-list .text-muted {
+  color: #adb5bd !important;
+}
+
+/* "{N} comments" counter next to the Post button — white on dark mode.
+   Scoped to .aurora-form so unrelated muted text isn't affected; the
+   contact form's .aurora-form has no .text-muted descendants. */
+.dark-mode .aurora-form .text-muted {
+  color: #ffffff !important;
+}
+
 .hero-section {
   min-height: 100vh;
   padding-top: 80px;
+}
+
+/* Aurora is rendered once at the Home root and pinned to the viewport so it
+   sits behind every section (Hero, Projects, Skills, Resume, Contact) and
+   the footer. Scoped to Home only — /resume, /project/:id, /experience/:id
+   unmount Home, so the aurora unmounts with it.
+
+   Light mode: ported 1:1 from Aceternity's Aurora Background. The DOM
+   matches their structure exactly — outer wrapper (.aurora-bg) + inner div
+   (.aurora-inner) that owns the static bg + filter + mask, and an ::after
+   pseudo-element that owns the animated overlay with mix-blend-difference.
+   The invert + difference combo "recovers" the original blue/violet colors
+   instead of inverting to orange, but only when the animated layer blends
+   against the parent's OWN bg — not a sibling pseudo. Hence the inner div. */
+.aurora-bg {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.aurora-inner {
+  position: absolute;
+  inset: -10px;
+  opacity: 0.6;
+  will-change: transform;
+  background-image:
+    repeating-linear-gradient(100deg, #fff 0%, #fff 7%, transparent 10%, transparent 12%, #fff 16%),
+    repeating-linear-gradient(100deg, #3b82f6 10%, #a5b4fc 15%, #93c5fd 20%, #ddd6fe 25%, #60a5fa 30%);
+  background-size: 300%, 200%;
+  background-position: 50% 50%, 50% 50%;
+  filter: blur(10px) invert(1);
+  -webkit-mask-image: radial-gradient(ellipse at 100% 0%, black 10%, transparent 85%);
+  mask-image: radial-gradient(ellipse at 100% 0%, black 10%, transparent 85%);
+}
+
+.aurora-inner::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(100deg, #fff 0%, #fff 7%, transparent 10%, transparent 12%, #fff 16%),
+    repeating-linear-gradient(100deg, #3b82f6 10%, #a5b4fc 15%, #93c5fd 20%, #ddd6fe 25%, #60a5fa 30%);
+  background-size: 200%, 100%;
+  background-attachment: fixed;
+  mix-blend-mode: difference;
+  animation: aurora 60s linear infinite;
+}
+
+@keyframes aurora {
+  from { background-position: 50% 50%, 50% 50%; }
+  to   { background-position: 350% 50%, 350% 50%; }
+}
+
+/* Lift Home sections + footer above the fixed aurora layer. The sticky
+   navbar already gets z-index: 1020 from Bootstrap so it's covered. */
+#hero,
+#projects,
+#skills,
+#resume,
+#contact,
+.resume-page,
+.detail-page,
+footer {
+  position: relative;
+  z-index: 1;
+}
+
+/* DARK MODE — same Aceternity technique, swapped to green/teal stripes on a
+   black masking gradient. Inherits all structural properties (inset, opacity,
+   sizes, positions, mix-blend-mode, animation, mask) from the light-mode
+   .aurora-inner / ::after rules; only overrides background-image and the
+   filter (drop invert — diff(black, color) = color directly). */
+.dark-mode .aurora-inner {
+  opacity: 0.5;
+  background-image:
+    repeating-linear-gradient(100deg, #000 0%, #000 7%, transparent 10%, transparent 12%, #000 16%),
+    repeating-linear-gradient(100deg, #10b981 10%, #5eead4 15%, #6ee7b7 20%, #bbf7d0 25%, #34d399 30%);
+  filter: blur(10px);
+  -webkit-mask-image: radial-gradient(ellipse at 100% 0%, black 10%, transparent 70%);
+  mask-image: radial-gradient(ellipse at 100% 0%, black 10%, transparent 70%);
+}
+
+.dark-mode .aurora-inner::after {
+  background-image:
+    repeating-linear-gradient(100deg, #000 0%, #000 7%, transparent 10%, transparent 12%, #000 16%),
+    repeating-linear-gradient(100deg, #10b981 10%, #5eead4 15%, #6ee7b7 20%, #bbf7d0 25%, #34d399 30%);
+  animation-duration: 90s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aurora-inner,
+  .aurora-inner::after { animation: none; }
+}
+
+@media (max-width: 768px) {
+  .aurora-inner { filter: blur(5px) invert(1); }
+  .dark-mode .aurora-inner { filter: blur(5px); }
+}
+
+/* ============ Navbar + Footer — frosted glass over the aurora ============
+   Bootstrap's bg-light / bg-dark / text-light utilities use !important, so the
+   overrides do too. Specificity bumped to (class + element + class) by chaining
+   the element type; App.css is loaded after bootstrap.min.css so equal-specificity
+   rules win on cascade order. backdrop-filter softens the section content that
+   scrolls behind the navbar while letting aurora hues tint through. */
+.navbar.bg-light {
+  background-color: rgba(255, 255, 255, 0.55) !important;
+  backdrop-filter: blur(14px) saturate(180%);
+  -webkit-backdrop-filter: blur(14px) saturate(180%);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.dark-mode .navbar.bg-dark {
+  background-color: rgba(26, 26, 46, 0.5) !important;
+  backdrop-filter: blur(14px) saturate(180%);
+  -webkit-backdrop-filter: blur(14px) saturate(180%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* "DevPortfolio" — gradient drawn from the aurora palette so it ties into the
+   page-level aurora. "Jatin |" is left to inherit the navbar variant's default
+   brand color (black in navbar-light, white in navbar-dark). Light mode:
+   blue → indigo → violet. Dark mode: emerald → teal → mint. */
+.brand-portfolio {
+  background: linear-gradient(90deg, #3b82f6 0%, #6366f1 50%, #a78bfa 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.dark-mode .brand-portfolio {
+  background: linear-gradient(90deg, #10b981 0%, #14b8a6 50%, #5eead4 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* Hero "View Projects" button — transparent fill with a gradient border that
+   mirrors the .brand-portfolio palette. The label uses .brand-portfolio for
+   matching gradient text. The gradient ring is drawn by a ::before that uses
+   the same mask-composite trick as .neon-card — works at any border-radius
+   and keeps the inside fully transparent so the aurora shows through. */
+.hero-projects-btn.btn,
+.hero-projects-btn.btn:hover,
+.hero-projects-btn.btn:focus,
+.hero-projects-btn.btn:active {
+  position: relative;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  isolation: isolate;
+  transition: filter 0.2s ease, transform 0.1s ease;
+}
+
+.hero-projects-btn.btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: linear-gradient(90deg, #3b82f6 0%, #6366f1 50%, #a78bfa 100%);
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+          mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  pointer-events: none;
+}
+
+.dark-mode .hero-projects-btn.btn::before {
+  background: linear-gradient(90deg, #10b981 0%, #14b8a6 50%, #5eead4 100%);
+}
+
+.hero-projects-btn.btn:hover {
+  filter: brightness(1.15);
+  transform: translateY(-1px);
+}
+
+
+/* Thin 1px-wide vertical divider between "Jatin" and "DevPortfolio". Light
+   grey in both modes. Replaces the bold "|" glyph that inherited the brand's
+   fontWeight: bold. */
+.brand-divider {
+  display: inline-block;
+  width: 1px;
+  height: 0.95em;
+  background-color: #adb5bd;
+  margin: 0 0.55rem;
+  vertical-align: -2px;
+}
+
+/* Active-section indicator — a thin underline that slides between nav links
+   as the user scrolls or hovers. Positioned relative to the .navbar-nav, which
+   has position: relative. Background uses the same linear-gradient as the
+   "DevPortfolio" brand text so the underline color matches it exactly. */
+.navbar .navbar-collapse .navbar-nav { position: relative; }
+
+.nav-indicator {
+  position: absolute;
+  bottom: 4px;
+  left: 0;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #3b82f6 0%, #6366f1 50%, #a78bfa 100%);
+  transition:
+    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+  will-change: transform, width;
+}
+
+.dark-mode .nav-indicator {
+  background: linear-gradient(90deg, #10b981 0%, #14b8a6 50%, #5eead4 100%);
+}
+
+@media (max-width: 991px) {
+  .nav-indicator { display: none; }
+}
+
+footer.bg-dark {
+  background-color: transparent !important;
+  color: #495057 !important;
+  transition: color 0.3s ease;
+}
+
+.dark-mode footer.bg-dark {
+  color: #adb5bd !important;
 }
 
 /* Keep headings clear of the sticky navbar when scrollIntoView targets a section */
@@ -115,6 +552,41 @@
 .hero-tagline,
 .hero-actions {
   opacity: 0;
+}
+
+.dark-mode .hero-tagline {
+  color: #adb5bd !important;
+}
+
+/* Brand colors on the hero social icons. GitHub Octocat is monochrome
+   (black on light, white on dark per the brand guidelines); LinkedIn uses
+   its corporate blue #0A66C2. Email keeps the default link color. */
+.hero-actions a[aria-label="GitHub"] {
+  color: #181717;
+}
+
+.dark-mode .hero-actions a[aria-label="GitHub"] {
+  color: #ffffff;
+}
+
+.hero-actions a[aria-label="LinkedIn"] {
+  color: #0A66C2;
+}
+
+/* Email envelope — uses the middle stop of the .brand-portfolio gradient
+   (indigo in light, teal in dark) so it reads as part of the same theme. */
+.hero-actions a[aria-label="Email"] {
+  color: #6366f1;
+}
+
+.dark-mode .hero-actions a[aria-label="Email"] {
+  color: #14b8a6;
+}
+
+.hero-actions a[aria-label="GitHub"]:hover,
+.hero-actions a[aria-label="LinkedIn"]:hover,
+.hero-actions a[aria-label="Email"]:hover {
+  filter: brightness(1.15);
 }
 
 .hero-reveal--play .hero-subtitle {
@@ -303,16 +775,196 @@
   background-color: #16213e !important;
 }
 
+.project-card.card {
+  --bs-card-bg: transparent;
+  --bs-card-cap-bg: transparent;
+  --bs-card-border-color: rgba(0, 0, 0, 0.12);
+  --bs-card-border-radius: 14px;
+  --bs-card-inner-border-radius: 13px;
+  position: relative;
+  overflow: hidden;
+}
+
+.dark-mode .project-card.card {
+  --bs-card-border-color: rgba(255, 255, 255, 0.12);
+}
+
+.project-card.card .card-footer {
+  border-top: 0;
+}
+
 .project-card:hover {
   transform: translateY(-4px);
   transition: transform 0.2s;
 }
 
-.vote-btn:hover {
-  color: #0d6efd;
+/* Dark-mode text colors for project cards. Title + description go full
+   white; tagline (the .text-muted card-subtitle) lifts to a very light
+   slate so it still reads as "secondary" without being unreadable. The
+   !important on the subtitle is needed because Bootstrap's .text-muted
+   uses !important. Scoped to .project-card so global .text-muted (used
+   by other muted text on the page) isn't affected. */
+.dark-mode .project-card .card-title {
+  color: #ffffff;
 }
-.dark-mode .text-muted {
-  color: #adb5bd !important;
+
+.dark-mode .project-card .card-subtitle {
+  color: #cbd5e1 !important;
+}
+
+.dark-mode .project-card .card-text {
+  color: #ffffff;
+}
+
+/* BorderBeam — animated gradient "comet" that travels around the card's
+   perimeter. Port of Magic UI's BorderBeam to vanilla CSS. The wrapper
+   carries a mask-composite ring (same trick as .neon-card) so the beam is
+   only visible on the border edge; the ::before is the actual beam,
+   animated via offset-path along a rect tracing the card edges. Color
+   stops mirror .brand-portfolio: blue→indigo→violet light, emerald→teal
+   →mint dark. */
+.border-beam {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  padding: 3.5px;
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+          mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+}
+
+.border-beam::before {
+  content: '';
+  position: absolute;
+  width: 90px;
+  aspect-ratio: 1;
+  background: radial-gradient(circle at center,
+    rgba(255, 255, 255, 0.7) 0%,
+    #818cf8 12%,
+    rgba(129, 140, 248, 0.55) 45%,
+    transparent 75%);
+  filter:
+    drop-shadow(0 0 3px rgba(255, 255, 255, 0.45))
+    drop-shadow(0 0 14px rgba(99, 102, 241, 0.85))
+    drop-shadow(0 0 28px rgba(96, 165, 250, 0.6))
+    drop-shadow(0 0 48px rgba(147, 197, 253, 0.4));
+  offset-path: rect(0 auto auto 0 round 14px);
+  offset-rotate: 0deg;
+  offset-distance: 0%;
+  animation: border-beam-travel 8s linear infinite;
+}
+
+.dark-mode .border-beam::before {
+  background: radial-gradient(circle at center,
+    rgba(255, 255, 255, 0.7) 0%,
+    #14b8a6 12%,
+    rgba(20, 184, 166, 0.55) 45%,
+    transparent 75%);
+  filter:
+    drop-shadow(0 0 3px rgba(255, 255, 255, 0.45))
+    drop-shadow(0 0 14px rgba(20, 184, 166, 0.85))
+    drop-shadow(0 0 28px rgba(20, 184, 166, 0.6))
+    drop-shadow(0 0 48px rgba(94, 234, 212, 0.4));
+}
+
+@keyframes border-beam-travel {
+  to { offset-distance: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .border-beam::before { animation: none; }
+}
+
+/* Upvote button — count text uses the .brand-portfolio middle stop; the
+   arrow itself takes a base-to-tip metallic gradient via fill:url(#…)
+   referencing the <linearGradient> defs in App.jsx. Light: dark-blue
+   base → indigo → light-violet tip. Dark: dark-teal base → teal → mint
+   tip. A small white drop-shadow adds a subtle metallic sheen at the tip. */
+.vote-btn {
+  color: #818cf8;
+  transition: color 0.2s ease;
+}
+
+.dark-mode .vote-btn {
+  color: #2dd4bf;
+}
+
+.vote-btn:hover {
+  color: #a78bfa;
+}
+
+.dark-mode .vote-btn:hover {
+  color: #5eead4;
+}
+
+.vote-btn svg path {
+  fill: url(#upvote-gradient-light);
+}
+
+.dark-mode .vote-btn svg path {
+  fill: url(#upvote-gradient-dark);
+}
+
+.vote-btn svg {
+  filter:
+    drop-shadow(0 -0.5px 0.5px rgba(255, 255, 255, 0.45))
+    drop-shadow(0 0 3px rgba(255, 255, 255, 0.18));
+}
+
+.dark-mode .vote-btn svg {
+  filter:
+    drop-shadow(0 -0.5px 0.5px rgba(255, 255, 255, 0.25))
+    drop-shadow(0 0 3px rgba(255, 255, 255, 0.08));
+}
+
+/* Project / timeline card titles that point to an external project URL.
+   Inherits the surrounding title color (white in dark, default in light)
+   so it doesn't fight the existing card typography; only difference is
+   the underline + slight hover lift. */
+.title-external-link,
+.title-external-link:hover,
+.title-external-link:focus {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.title-external-link:hover {
+  filter: brightness(1.1);
+}
+
+/* Hover preview thumbnail for external project links (Prometheon, future
+   live projects). Overrides Bootstrap Popover's default body padding so the
+   image fills the popover edge-to-edge, with rounded corners + soft shadow. */
+.link-preview-popover {
+  max-width: 320px;
+  border: none;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow:
+    0 12px 32px rgba(15, 23, 42, 0.25),
+    0 4px 10px rgba(15, 23, 42, 0.12);
+}
+
+.link-preview-popover .popover-body {
+  padding: 0;
+}
+
+.link-preview-popover img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: inherit;
+}
+
+.dark-mode .link-preview-popover {
+  background-color: #0f172a;
 }
 
 /* ============ Timeline (shared) ============ */
@@ -689,4 +1341,351 @@
   .timeline-entry--horizontal {
     width: 285px;
   }
+}
+
+/* ============ Dark-mode shooting stars ============
+   Sibling overlay above the aurora (DOM-ordered after main+footer, z-index 0)
+   and below positioned content (sections at z-index 1 paint on top). The
+   component returns null in light mode, so the wrapper never renders there. */
+.shooting-star {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.shooting-star__streak {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--trail-length);
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 185, 56, 0.22) 40%,
+    rgba(255, 185, 56, 0.55) 65%,
+    rgba(255, 215, 0, 0.85) 88%,
+    rgba(255, 248, 220, 1) 100%
+  );
+  box-shadow:
+    0 0 4px rgba(255, 248, 220, 0.9),
+    0 0 8px rgba(255, 215, 0, 0.7),
+    0 0 14px rgba(255, 185, 56, 0.4);
+  filter: blur(0.5px);
+  transform-origin: 100% 50%;
+  animation: shooting-star-fly var(--duration) cubic-bezier(0.4, 0, 0.6, 1) forwards;
+  will-change: transform, opacity;
+}
+
+@keyframes shooting-star-fly {
+  0%   { transform: translate(var(--start-x), var(--start-y)) rotate(var(--angle)); opacity: 0; }
+  10%  { opacity: 1; }
+  85%  { opacity: 1; }
+  100% { transform: translate(var(--end-x),   var(--end-y))   rotate(var(--angle)); opacity: 0; }
+}
+
+/* ============ Skills Section — Pills with Hover Tooltips ============
+   Transparent at every level so the page-level aurora flows through. The
+   only elements with backgrounds are the pills (solid category colors), the
+   hint pill, the tooltip (dark navy), and the project-icon badges. */
+
+.skills-pills-section {
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 40px;
+  row-gap: 36px;
+  align-items: start;
+}
+
+.skills-pills-section__header {
+  grid-column: 1 / -1;
+  text-align: center;
+  margin-bottom: -16px;
+}
+
+@media (max-width: 767px) {
+  .skills-pills-section {
+    grid-template-columns: 1fr;
+    row-gap: 28px;
+  }
+}
+
+.skills-pills-section__header h2 {
+  font-size: 40px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 6px;
+}
+
+.dark-mode .skills-pills-section__header h2 {
+  color: #e2e8f0;
+}
+
+.skills-pills-section__header p {
+  font-size: 15px;
+  color: #64748b;
+  margin: 0;
+}
+
+.dark-mode .skills-pills-section__header p {
+  color: #94a3b8;
+}
+
+/* Category — vertical spacing is handled by the grid's row-gap on the parent. */
+.skill-category__header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.skill-category__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.skill-category__label {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: #64748b;
+}
+
+.dark-mode .skill-category__label {
+  color: #cbd5e1;
+}
+
+.skill-category__count {
+  font-size: 13px;
+  color: #94a3b8;
+}
+
+.dark-mode .skill-category__count {
+  color: #94a3b8;
+}
+
+.skill-category__pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.skill-category__empty {
+  margin: 0;
+  font-size: 14px;
+  font-style: italic;
+  color: #94a3b8;
+}
+
+/* Pill */
+.skill-pill {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: 9px 18px;
+  border-radius: 999px;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  user-select: none;
+  transition:
+    transform 0.18s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.skill-pill:hover,
+.skill-pill:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.12);
+  z-index: 100;
+  outline: none;
+}
+
+.skill-pill__label {
+  white-space: nowrap;
+}
+
+/* "View more / Show less" toggle — looks like a pill but with a dashed
+   outline so it reads as a secondary control, not a skill. Rendered as a
+   <button>; the appearance reset and font-family inherit normalize the
+   default button styling so it matches the surrounding pills. */
+.skill-pill--toggle {
+  background-color: transparent;
+  color: #475569;
+  border: 1.5px dashed rgba(15, 23, 42, 0.22);
+  font-family: inherit;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.skill-pill--toggle:hover,
+.skill-pill--toggle:focus-visible {
+  background-color: rgba(15, 23, 42, 0.05);
+  border-color: rgba(15, 23, 42, 0.4);
+  color: #0f172a;
+}
+
+.dark-mode .skill-pill--toggle {
+  color: #cbd5e1;
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
+.dark-mode .skill-pill--toggle:hover,
+.dark-mode .skill-pill--toggle:focus-visible {
+  background-color: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.45);
+  color: #f1f5f9;
+}
+
+/* Python pulse rings — two concentric ring layers, second delayed by half a cycle */
+.skill-pill--python::before,
+.skill-pill--python::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  background-color: #2563eb;
+  pointer-events: none;
+  z-index: -1;
+  animation: skill-pulse 4s ease-out infinite;
+}
+
+.skill-pill--python::before { opacity: 0.55; }
+.skill-pill--python::after  { opacity: 0.40; animation-delay: 2s; }
+
+.skill-pill--python:hover::before,
+.skill-pill--python:hover::after,
+.skill-pill--python:focus-visible::before,
+.skill-pill--python:focus-visible::after {
+  animation-play-state: paused;
+  opacity: 0;
+  transition: opacity 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes skill-pulse {
+  0%   { transform: scale(1);    opacity: 0.7; }
+  100% { transform: scale(1.2); opacity: 0;   }
+}
+
+/* Tooltip */
+.skill-tooltip {
+  position: absolute;
+  bottom: calc(100% + 12px);
+  width: 260px;
+  padding: 14px 16px;
+  background: #0f172a;
+  color: #f1f5f9;
+  border-radius: 12px;
+  box-shadow:
+    0 16px 36px rgba(15, 23, 42, 0.4),
+    0 4px 12px rgba(15, 23, 42, 0.18);
+  z-index: 200;
+  cursor: default;
+  text-align: left;
+  animation: skill-tooltip-in 0.18s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.skill-tooltip--center {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.skill-tooltip--left {
+  left: 0;
+}
+
+.skill-tooltip--right {
+  right: 0;
+}
+
+@keyframes skill-tooltip-in {
+  from { opacity: 0; transform: translateY(8px) translateX(var(--tt-tx, -50%)); }
+  to   { opacity: 1; transform: translateY(0)   translateX(var(--tt-tx, -50%)); }
+}
+
+.skill-tooltip--left  { --tt-tx: 0; }
+.skill-tooltip--right { --tt-tx: 0; }
+
+.skill-tooltip__triangle {
+  position: absolute;
+  bottom: -5px;
+  width: 10px;
+  height: 10px;
+  background: #0f172a;
+  transform: rotate(45deg);
+}
+
+.skill-tooltip--center .skill-tooltip__triangle {
+  left: 50%;
+  margin-left: -5px;
+}
+
+.skill-tooltip--left .skill-tooltip__triangle {
+  left: 24px;
+}
+
+.skill-tooltip--right .skill-tooltip__triangle {
+  right: 24px;
+}
+
+.skill-tooltip__label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: #94a3b8;
+  margin-bottom: 10px;
+}
+
+.skill-tooltip__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.skill-tooltip__row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 0;
+}
+
+.skill-tooltip__name {
+  font-size: 13px;
+  font-weight: 500;
+  color: #f1f5f9;
+}
+
+.skill-tooltip__practice {
+  font-size: 13px;
+  color: #cbd5e1;
+  margin: 0;
+  line-height: 1.45;
+}
+
+.proj-icon {
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skill-pill,
+  .skill-tooltip { animation: none; transition: none; }
+  .skill-pill--python::before,
+  .skill-pill--python::after { animation: none; opacity: 0; }
 }

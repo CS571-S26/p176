@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { Card, Collapse } from 'react-bootstrap';
+import { Card, Collapse, OverlayTrigger, Popover } from 'react-bootstrap';
 import { FaGraduationCap, FaBriefcase, FaCode, FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import { getTypeStyle, getTypeLabel, timelineTypes } from '../data/timeline';
 
@@ -60,7 +60,36 @@ function TimelineEntry({ entry, rootRef, orientation = 'vertical', lane, leftPer
               {getTypeLabel(entry.type)}
             </small>
           </div>
-          <Card.Title className="fw-bold mb-1">{entry.title}</Card.Title>
+          <Card.Title className="fw-bold mb-1">
+            {entry.liveUrl ? (
+              <OverlayTrigger
+                placement="top"
+                trigger={['hover', 'focus']}
+                delay={{ show: 200, hide: 100 }}
+                overlay={
+                  <Popover className="link-preview-popover" id={`preview-timeline-${entry.id}`}>
+                    <Popover.Body>
+                      <img
+                        src={`${import.meta.env.BASE_URL}${entry.previewImage.replace(/^\//, '')}`}
+                        alt={`${entry.title} preview`}
+                      />
+                    </Popover.Body>
+                  </Popover>
+                }
+              >
+                <a
+                  href={entry.liveUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="title-external-link"
+                >
+                  {entry.title}
+                </a>
+              </OverlayTrigger>
+            ) : (
+              entry.title
+            )}
+          </Card.Title>
           <Card.Subtitle className="mb-2 text-muted">{entry.subtitle}</Card.Subtitle>
           <div className="small text-muted mb-2">{entry.period}</div>
           <Card.Text>{entry.description}</Card.Text>

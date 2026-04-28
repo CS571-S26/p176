@@ -47,7 +47,7 @@ function ContactForm() {
           <a href="mailto:jatinuppal55@gmail.com">jatinuppal55@gmail.com</a>.
         </Alert>
       )}
-      <Form onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit} className="aurora-form">
         <Form.Group className="mb-2">
           <Form.Control
             placeholder="Your name"
@@ -78,7 +78,7 @@ function ContactForm() {
             required
           />
         </Form.Group>
-        <Button type="submit" variant="primary" disabled={sending}>
+        <Button type="submit" variant="outline-primary" disabled={sending}>
           {sending ? (
             <>
               <Spinner as="span" animation="border" size="sm" className="me-2" />

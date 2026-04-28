@@ -88,6 +88,8 @@ const timeline = [
     description:
       'Multi-tenant chaos engineering platform on Kubernetes with per-tenant sandboxes, Toxiproxy fault injection, and ML-based root cause analysis over an OpenTelemetry + Prometheus + Jaeger observability pipeline.',
     link: '/#/project/1',
+    liveUrl: 'https://prometheon.run/',
+    previewImage: '/og-image.png',
   },
   {
     id: 4,

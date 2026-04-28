@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Card } from 'react-bootstrap';
+import { Card, OverlayTrigger, Popover } from 'react-bootstrap';
 import { useNavigate, Link } from 'react-router-dom';
 import { FaArrowUp } from 'react-icons/fa';
 import { getTagStyle } from '../data/skillColors';
@@ -18,9 +18,40 @@ function ProjectCard({ project, onVote }) {
       : project.tags.slice(0, MAX_VISIBLE_TAGS);
 
   return (
-    <Card className="project-card h-100 shadow-sm" style={{ cursor: 'pointer' }}>
+    <Card className="project-card h-100" style={{ cursor: 'pointer' }}>
+      <span className="border-beam" aria-hidden="true" />
       <Card.Body onClick={() => navigate(`/project/${project.id}`, { state: { from: 'projects' } })}>
-        <Card.Title className="fw-bold">{project.title}</Card.Title>
+        <Card.Title className="fw-bold">
+          {project.live ? (
+            <OverlayTrigger
+              placement="top"
+              trigger={['hover', 'focus']}
+              delay={{ show: 200, hide: 100 }}
+              overlay={
+                <Popover className="link-preview-popover" id={`preview-${project.id}`}>
+                  <Popover.Body>
+                    <img
+                      src={`${import.meta.env.BASE_URL}${project.image.replace(/^\//, '')}`}
+                      alt={`${project.title} preview`}
+                    />
+                  </Popover.Body>
+                </Popover>
+              }
+            >
+              <a
+                href={project.live}
+                target="_blank"
+                rel="noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                className="title-external-link"
+              >
+                {project.title}
+              </a>
+            </OverlayTrigger>
+          ) : (
+            project.title
+          )}
+        </Card.Title>
         <Card.Subtitle className="text-muted mb-2">{project.tagline}</Card.Subtitle>
         <div className="mb-2">
           {visibleTags.map(tag => (
@@ -58,7 +89,7 @@ function ProjectCard({ project, onVote }) {
         <Link
           to={`/project/${project.id}`}
           state={{ from: 'projects' }}
-          className="small fw-semibold text-primary text-decoration-none"
+          className="small fw-semibold brand-portfolio text-decoration-none"
           onClick={(e) => e.stopPropagation()}
         >
           Click for deep dive →
