@@ -35,6 +35,7 @@ p176/
 │   │   ├── Guestbook.jsx      # Visitor name+note feed; persisted to localStorage; authored entries show a Trash2 delete button
 │   │   ├── TimelineEntry.jsx  # One card in the resume timeline; icon badge rides on the line; IntersectionObserver fade-in; supports horizontal mode with top/bottom lanes + leftPercent positioning
 │   │   ├── ResumeTimeline.jsx # Shared block: heading + Resume PDF button + Lucide-icon filter chips + timeline; orientation="vertical"|"horizontal"
+│   │   ├── MeteorShower.jsx   # Wave-based meteor overlay mounted in App.jsx (sibling to Footer); active in BOTH modes; gold dark / brand-purple translucent light; respects prefers-reduced-motion
 │   │   └── Footer.jsx         # Simple footer with copyright
 │   ├── pages/
 │   │   ├── Home.jsx             # Main scroll page: AuroraBackground (page-level backdrop) + Hero + Projects + Skills + Resume + Contact. Skills and Contact sections intentionally have NO bg-light class so the aurora flows through unbroken
@@ -84,6 +85,12 @@ There is no test runner configured.
 - [ ] **Aurora coverage**: every routed page (`/`, `/resume`, `/project/:id`, `/experience/:id`) renders the aurora behind its content. Light mode = pastel blue/violet drift, dark mode = green/teal northern lights, both visible on every page
 - [ ] **Aurora reduced motion**: enable OS "Reduce Motion" — aurora freezes (no drift) in both color modes
 - [ ] **Aurora z-order**: confirm all Home content (cards, buttons, links, contact form, guestbook) renders ABOVE the aurora and remains clickable
+- [ ] **Meteor shower light mode**: 1–4 brand-purple translucent meteors fly parallel diagonally with starburst tips; trails grow from a point at the head, hold, then retract; first wave appears 1–5s after refresh, then next wave fires only after the current wave fully clears
+- [ ] **Meteor shower dark mode**: same wave behavior in gold; meteors are noticeably more vivid (full opacity at head)
+- [ ] **Meteor mode toggle mid-flight**: toggle dark/light while a wave is in flight — in-flight meteors finish in their original color; next wave uses the new color
+- [ ] **Meteor cross-route**: meteors continue spawning when navigating between `/`, `/resume`, `/project/:id`, `/experience/:id` (component is mounted in App.jsx, not per-page)
+- [ ] **Meteor reduced motion**: enable OS "Reduce Motion" — no meteors render at all
+- [ ] **Meteor click-through**: clicking buttons/links during a meteor flyby works — `pointer-events: none` on the wrapper
 - [ ] **Project filter popover**: click Filter button, verify popover opens anchored to the button; ESC or click-outside closes it
 - [ ] **Multi-tag selection**: select chips from multiple categories, verify cards filter (OR logic — a card matches if it has ANY selected tag)
 - [ ] **Filter badge**: verify the filter button shows a red count badge equal to selected tags
@@ -173,6 +180,39 @@ Entries live in `src/data/timeline.js`; `TimelineEntry.jsx` is the shared card. 
 
 All aurora CSS lives in `src/App.css` (search for `.aurora-bg` / `.aurora-inner`). Tailwind palette literals are used directly: blues `#3b82f6, #a5b4fc, #93c5fd, #ddd6fe, #60a5fa`; greens `#10b981, #5eead4, #6ee7b7, #bbf7d0, #34d399`.
 
+### Meteor Shower
+
+`components/MeteorShower.jsx` renders a wave-based meteor overlay above the aurora and below all interactive content. Mounted ONCE in `App.jsx` as a sibling to `<Footer>`, so it spans every route (Home, /resume, /project/:id, /experience/:id) without re-mounting on navigation. Active in BOTH light and dark mode — only the palette differs.
+
+**Spawn cycle:** continuous wave-based, NOT independent per-meteor:
+- On mount, waits a random `1000–5000ms` initial delay before the first wave (so the page isn't busy on refresh).
+- Each wave: random `1–4` meteors, ALL sharing the same direction (angle + entry edge picked once via `pickWaveDirection()`). Within the wave, each meteor has its own randomized start position along that edge, duration, and trail length — they fly parallel, not stacked.
+- Next wave is scheduled for `longestMeteorDuration + 1400–4500ms` after the current wave starts, so the screen is fully clear of meteors before the next wave fires. No overlapping waves with mixed directions ("too chaotic" was the explicit design feedback).
+- All timer chains are tracked in a `Map` keyed by meteor id and torn down in the effect cleanup.
+
+**Per-meteor params** (see constants at top of `MeteorShower.jsx`):
+- Flight duration: `1500–2200ms`
+- Trail length: `80–150px`
+- Entry edge angle: `25°–55°` downward diagonal
+- Entry edge: `top` (40%) / `right` (30%) / `left` (30%) — picked once per wave, all meteors in the wave use the same edge
+
+**Mode toggle mid-flight:** `darkMode` is read via a `useRef` updated in a separate effect, so toggling modes does NOT restart the spawn loop. Each meteor stores `dark: boolean` baked in at spawn time, so in-flight meteors finish their journey in their original color. Only the next wave reads the new mode.
+
+**DOM rig (per meteor):** two-element structure to give a "real meteor" feel where the trail visibly grows from the head and retracts back into it:
+- `.meteor__head` — a 0×0 anchor that flies start → end and rotates to the travel angle. Owns the starburst tip via `::before`. Carries the `--dark` / `--light` modifier class which sets `--tip-color`, `--trail-grad`, and `--trail-shadow` CSS vars consumed by the streak.
+- `.meteor__streak` — the trail child anchored to the head's right edge (`right: 0`, `transform-origin: 100% 50%`). Animates `transform: scaleX(...)` from `0 → 1 → 1 → 0` (keyframe `meteor-trail`), so the trail extends from a point at the head, holds at full length, then collapses back to a point before fading.
+- The starburst (4-point sparkle drawn with two crossed `linear-gradient`s on the head's `::before`) lives on the head, NOT the streak — otherwise `scaleX` would squash it. Twinkles via its own `meteor-tip` keyframe (peak ~35–70% of duration), decoupled from the trail's scaling.
+
+**Color palette:**
+- Dark mode: gold trail `rgba(255, 185, 56, ...) → rgba(255, 248, 220, 1)` head, glow in cream/gold/amber, tip color `#fff8dc`.
+- Light mode: brand indigo/violet trail at low opacity `rgba(99, 102, 241, 0.12) → rgba(167, 139, 250, 0.75)` head — never fully opaque so it reads as a wash of color, not solid streaks. Glow at ~50–60% the alpha of dark mode. Tip color `#e0e7ff` (pale lavender). Anchored on the middle stop of `.brand-portfolio` (`#6366f1`) so the meteor feels cohesive with the navbar wordmark.
+
+**Stacking:** `.meteor` wrapper is `position: fixed; inset: 0; pointer-events: none; z-index: 0`. Same z-index as the aurora, but DOM-ordered AFTER the aurora (which lives inside each routed page) so it paints on top. Sections at `z-index: 1` paint above. Pointer-events disabled so it never intercepts clicks.
+
+**Reduced motion:** `prefers-reduced-motion: reduce` short-circuits the component to render `null` and never starts the spawn loop. There is no fallback static image — the effect simply doesn't render.
+
+All meteor CSS lives in `src/App.css` (search for `.meteor`, `@keyframes meteor-fly`, `@keyframes meteor-trail`, `@keyframes meteor-tip`).
+
 ### Brand Visual System & Glow Effects
 
 A small set of opt-in CSS classes in `src/App.css` carry the "brand-portfolio" gradient (blue → indigo → violet light / emerald → teal → mint dark) across the UI. Reuse these classes rather than re-implementing the gradient inline.
@@ -200,7 +240,7 @@ A small set of opt-in CSS classes in `src/App.css` carry the "brand-portfolio" g
 `import.meta.env.BASE_URL` resolves to `/p176/` in both dev and prod. The `.replace(/^\//, '')` strips the leading slash from the data string so we don't end up with `//og-image.png`. Used in `ProjectCard.jsx` (popover image) and `TimelineEntry.jsx` (popover image). Apply this same pattern anywhere else you render `project.image` or similar.
 
 ### State Management
-- **Dark mode**: `useState` in `App.jsx`, prop drilled to `NavigationBar` and `ShootingStar`. Toggles `.dark-mode` class on root wrapper, styled in `App.css`. Persisted per-browser to `localStorage['p176:dark-mode']` as the string `'true'` / `'false'` — lazy init reads it on mount; a `useEffect` writes on every change. First-time visitors with no stored preference default to light mode (the lazy init treats any non-`'true'` value, including `null`, as light).
+- **Dark mode**: `useState` in `App.jsx`, prop drilled to `NavigationBar` and `MeteorShower`. Toggles `.dark-mode` class on root wrapper, styled in `App.css`. Persisted per-browser to `localStorage['p176:dark-mode']` as the string `'true'` / `'false'` — lazy init reads it on mount; a `useEffect` writes on every change. First-time visitors with no stored preference default to light mode (the lazy init treats any non-`'true'` value, including `null`, as light).
 - **Project votes**: `useState` in `Home.jsx`, passed to `ProjectCard` via `onVote` callback. Persisted per-browser to `localStorage['p176:project-votes']` as a `{ [id]: votes }` map — lazy init reads and merges onto static `projectsData`; `handleVote` writes the whole map after each increment. Only the map is stored, not project content, so stale project metadata can't get frozen in visitors' browsers.
 - **Filters/search**: `useState` in `Home.jsx` for project `selectedTags` (array, multi-select), `showFilters` (popover open/close), `search`; `FilterPopover` is an anchored Bootstrap `Overlay`+`Popover` using `rootClose` + an ESC key listener. The search query matches against `title`, `description`, AND `tags` (so typing `"react"` or `"docker"` surfaces projects with that skill, not just the literal word in the description). `useState` for timeline `filter` in `ResumeTimeline.jsx` (each mount has its own state, so the Home section and `/resume` page do not share a filter)
 - **Contact form**: local `useState` in `ContactForm.jsx` — `form` (name/email/message) + `status` (idle/sending/success/error). On submit, POSTs JSON to Formspree; success clears the form and shows a dismissible Bootstrap `Alert`; network failures show an error Alert with a mailto fallback.
