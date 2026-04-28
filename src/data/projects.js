@@ -39,7 +39,7 @@ const projects = [
       "Per-tenant sandbox isolation on shared Kubernetes — coordinating namespaces, ResourceQuotas, and NetworkPolicy without cross-tenant leakage while keeping spin-up time under 15 seconds. Handling Toxiproxy auto-injection and trace correlation across dozens of microservices per sandbox.",
     outcome:
       "Deployed to AWS EKS behind CloudFront HTTPS, live at prometheon.run.",
-    github: null,
+    github: "https://github.com/JatUppal/AI-Adaptive-Sandbox",
     live: "https://prometheon.run",
     votes: 0,
   },

@@ -1,7 +1,7 @@
 import { HashRouter as Router, Routes, Route, useLocation, useNavigationType } from 'react-router-dom';
 import NavigationBar from './components/Navbar';
 import Footer from './components/Footer';
-import ShootingStar from './components/ShootingStar';
+import MeteorShower from './components/MeteorShower';
 import Home from './pages/Home';
 import ProjectDetail from './pages/ProjectDetail';
 import ExperienceDetail from './pages/ExperienceDetail';
@@ -119,7 +119,7 @@ function App() {
           </Routes>
         </main>
         <Footer />
-        <ShootingStar darkMode={darkMode} />
+        <MeteorShower darkMode={darkMode} />
       </div>
     </Router>
   );

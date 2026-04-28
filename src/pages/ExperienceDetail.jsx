@@ -28,9 +28,9 @@ function ExperienceDetail() {
       <Button
         variant="link"
         onClick={() => navigate('/', { state: { scrollTo: 'resume' } })}
-        className="mb-3 p-0"
+        className="mb-3 p-0 back-btn"
       >
-        <FaArrowLeft /> Back to resume
+        <FaArrowLeft /> Back to timeline
       </Button>
 
       <div className="d-flex align-items-center mb-2" style={{ color: '#81c784' }}>

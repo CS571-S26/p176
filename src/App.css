@@ -41,16 +41,16 @@
   max-height: 210px;
   overflow-y: auto;
   box-shadow:
-    inset 0 0 18px rgba(59, 130, 246, 0.35),
-    inset 0 0 40px rgba(99, 102, 241, 0.22),
-    inset 0 0 70px rgba(167, 139, 250, 0.14);
+    inset 0 0 16px rgba(59, 130, 246, 0.35),
+    inset 0 0 36px rgba(99, 102, 241, 0.22),
+    inset 0 0 63px rgba(167, 139, 250, 0.14);
 }
 
 .dark-mode .guestbook-list {
   box-shadow:
-    inset 0 0 18px rgba(45, 212, 191, 0.4),
-    inset 0 0 40px rgba(20, 184, 166, 0.25),
-    inset 0 0 70px rgba(94, 234, 212, 0.16);
+    inset 0 0 16px rgba(45, 212, 191, 0.4),
+    inset 0 0 36px rgba(20, 184, 166, 0.25),
+    inset 0 0 63px rgba(94, 234, 212, 0.16);
 }
 
 .guestbook-list::-webkit-scrollbar { width: 6px; }
@@ -71,9 +71,9 @@
   background-color: transparent;
   border: 1.5px solid rgba(96, 165, 250, 0.85);
   box-shadow:
-    0 0 18px rgba(59, 130, 246, 0.65),
-    0 0 40px rgba(99, 102, 241, 0.4),
-    0 0 64px rgba(167, 139, 250, 0.28);
+    0 0 16px rgba(59, 130, 246, 0.65),
+    0 0 36px rgba(99, 102, 241, 0.4),
+    0 0 58px rgba(167, 139, 250, 0.28);
   color: inherit;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
@@ -87,9 +87,9 @@
   background-color: transparent;
   border-color: rgba(96, 165, 250, 1);
   box-shadow:
-    0 0 26px rgba(59, 130, 246, 0.85),
-    0 0 56px rgba(99, 102, 241, 0.55),
-    0 0 86px rgba(167, 139, 250, 0.4);
+    0 0 23px rgba(59, 130, 246, 0.85),
+    0 0 50px rgba(99, 102, 241, 0.55),
+    0 0 77px rgba(167, 139, 250, 0.4);
   color: inherit;
 }
 
@@ -102,9 +102,9 @@
   background-color: transparent;
   border: 1.5px solid rgba(94, 234, 212, 0.7);
   box-shadow:
-    0 0 18px rgba(45, 212, 191, 0.55),
-    0 0 40px rgba(20, 184, 166, 0.35),
-    0 0 64px rgba(94, 234, 212, 0.22);
+    0 0 16px rgba(45, 212, 191, 0.55),
+    0 0 36px rgba(20, 184, 166, 0.35),
+    0 0 58px rgba(94, 234, 212, 0.22);
   color: #e2e8f0;
 }
 
@@ -116,9 +116,9 @@
   background-color: transparent;
   border-color: rgba(94, 234, 212, 1);
   box-shadow:
-    0 0 26px rgba(45, 212, 191, 0.75),
-    0 0 56px rgba(20, 184, 166, 0.5),
-    0 0 86px rgba(94, 234, 212, 0.35);
+    0 0 23px rgba(45, 212, 191, 0.75),
+    0 0 50px rgba(20, 184, 166, 0.5),
+    0 0 77px rgba(94, 234, 212, 0.35);
   color: #f1f5f9;
 }
 
@@ -183,16 +183,16 @@
    container, so comments scroll without pushing past the fixed border. */
 .guestbook-card {
   box-shadow:
-    0 0 26px rgba(59, 130, 246, 0.45),
-    0 0 60px rgba(99, 102, 241, 0.3),
-    0 0 100px rgba(167, 139, 250, 0.2);
+    0 0 23px rgba(59, 130, 246, 0.45),
+    0 0 54px rgba(99, 102, 241, 0.3),
+    0 0 90px rgba(167, 139, 250, 0.2);
 }
 
 .dark-mode .guestbook-card {
   box-shadow:
-    0 0 26px rgba(45, 212, 191, 0.5),
-    0 0 60px rgba(20, 184, 166, 0.32),
-    0 0 100px rgba(94, 234, 212, 0.2);
+    0 0 23px rgba(45, 212, 191, 0.5),
+    0 0 54px rgba(20, 184, 166, 0.32),
+    0 0 90px rgba(94, 234, 212, 0.2);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -365,6 +365,95 @@ footer {
   background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent;
+}
+
+/* Transparent bulleted list with a gradient ◆ marker that mirrors
+   .brand-portfolio. Used by ProjectDetail's Highlights — replaces the
+   Bootstrap ListGroup so the aurora shows through and there are no divider
+   lines between items. */
+.brand-bullets {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 1rem;
+}
+
+.brand-bullets li {
+  position: relative;
+  padding-left: 1.75rem;
+  margin-bottom: 0.6rem;
+  background: transparent;
+  border: 0;
+  line-height: 1.55;
+}
+
+.brand-bullets li::before {
+  content: '◆';
+  position: absolute;
+  left: 0;
+  top: 0.05em;
+  font-size: 0.85em;
+  background: linear-gradient(90deg, #3b82f6 0%, #6366f1 50%, #a78bfa 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.dark-mode .brand-bullets li::before {
+  background: linear-gradient(90deg, #10b981 0%, #14b8a6 50%, #5eead4 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* Detail page tagline — Bootstrap's .text-muted is too dim against the
+   aurora in dark mode. Scoped to .detail-page so other muted text on the
+   page isn't affected. !important matches Bootstrap's own !important on
+   .text-muted. */
+.dark-mode .detail-page .text-muted {
+  color: #cbd5e1 !important;
+}
+
+/* Back button (Project/Experience detail pages) — replaces Bootstrap's
+   default link-blue with the .brand-portfolio palette. Label text gets the
+   full gradient via background-clip; the FaArrowLeft icon stays a solid
+   middle-stop color (gradient text doesn't apply to SVG fills, and a solid
+   icon next to gradient text reads cleanly). */
+.back-btn.btn,
+.back-btn.btn:focus {
+  text-decoration: none;
+  color: #6366f1;
+  background: linear-gradient(90deg, #3b82f6 0%, #6366f1 50%, #a78bfa 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  box-shadow: none;
+}
+
+.back-btn.btn:hover {
+  color: #4f46e5;
+  background: linear-gradient(90deg, #2563eb 0%, #4f46e5 50%, #8b5cf6 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.dark-mode .back-btn.btn,
+.dark-mode .back-btn.btn:focus {
+  color: #14b8a6;
+  background: linear-gradient(90deg, #10b981 0%, #14b8a6 50%, #5eead4 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.dark-mode .back-btn.btn:hover {
+  color: #2dd4bf;
+  background: linear-gradient(90deg, #34d399 0%, #2dd4bf 50%, #6ee7b7 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 /* Hero "View Projects" button — transparent fill with a gradient border that
@@ -1343,11 +1432,12 @@ footer.bg-dark {
   }
 }
 
-/* ============ Dark-mode shooting stars ============
+/* ============ Continuous meteor shower ============
    Sibling overlay above the aurora (DOM-ordered after main+footer, z-index 0)
-   and below positioned content (sections at z-index 1 paint on top). The
-   component returns null in light mode, so the wrapper never renders there. */
-.shooting-star {
+   and below positioned content (sections at z-index 1 paint on top). Active
+   in BOTH modes; per-streak modifier class --dark / --light swaps the palette.
+   In-flight meteors keep their spawn-time color when dark mode toggles. */
+.meteor {
   position: fixed;
   inset: 0;
   pointer-events: none;
@@ -1355,14 +1445,26 @@ footer.bg-dark {
   z-index: 0;
 }
 
-.shooting-star__streak {
+/* Each meteor is a two-element rig:
+   .meteor__head — a 0×0 anchor that flies from start→end and rotates to the
+                   travel angle. Owns the starburst tip (::before).
+   .meteor__streak — the trail, anchored to the head's right edge, scaled along
+                     the travel axis from 0 → 1 → 0 so the trail visibly grows
+                     from a point at the head, holds at full length, then
+                     retracts back into the head before fading. */
+.meteor__head {
   position: absolute;
   top: 0;
   left: 0;
-  width: var(--trail-length);
-  height: 2px;
-  border-radius: 2px;
-  background: linear-gradient(
+  width: 0;
+  height: 0;
+  animation: meteor-fly var(--duration) cubic-bezier(0.4, 0, 0.6, 1) forwards;
+  will-change: transform, opacity;
+}
+
+.meteor__head--dark {
+  --tip-color: #fff8dc;
+  --trail-grad: linear-gradient(
     90deg,
     transparent 0%,
     rgba(255, 185, 56, 0.22) 40%,
@@ -1370,21 +1472,81 @@ footer.bg-dark {
     rgba(255, 215, 0, 0.85) 88%,
     rgba(255, 248, 220, 1) 100%
   );
-  box-shadow:
+  --trail-shadow:
     0 0 4px rgba(255, 248, 220, 0.9),
     0 0 8px rgba(255, 215, 0, 0.7),
     0 0 14px rgba(255, 185, 56, 0.4);
-  filter: blur(0.5px);
-  transform-origin: 100% 50%;
-  animation: shooting-star-fly var(--duration) cubic-bezier(0.4, 0, 0.6, 1) forwards;
-  will-change: transform, opacity;
 }
 
-@keyframes shooting-star-fly {
+.meteor__head--light {
+  --tip-color: #e0e7ff;
+  --trail-grad: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(99, 102, 241, 0.12) 40%,
+    rgba(99, 102, 241, 0.30) 65%,
+    rgba(139, 92, 246, 0.55) 88%,
+    rgba(167, 139, 250, 0.75) 100%
+  );
+  --trail-shadow:
+    0 0 4px rgba(199, 210, 254, 0.5),
+    0 0 8px rgba(139, 92, 246, 0.4),
+    0 0 14px rgba(99, 102, 241, 0.25);
+}
+
+.meteor__streak {
+  position: absolute;
+  right: 0;
+  top: -1px;
+  width: var(--max-trail);
+  height: 2px;
+  border-radius: 2px;
+  background: var(--trail-grad);
+  box-shadow: var(--trail-shadow);
+  filter: blur(0.5px);
+  transform-origin: 100% 50%;
+  animation: meteor-trail var(--duration) cubic-bezier(0.4, 0, 0.6, 1) forwards;
+  will-change: transform;
+}
+
+.meteor__head::before {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 14px;
+  height: 14px;
+  background:
+    linear-gradient(transparent 45%, var(--tip-color) 50%, transparent 55%),
+    linear-gradient(90deg, transparent 45%, var(--tip-color) 50%, transparent 55%);
+  background-size: 1.5px 100%, 100% 1.5px;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: drop-shadow(0 0 2px var(--tip-color));
+  opacity: 0;
+  transform: translate(50%, -50%) scale(0.8);
+  animation: meteor-tip var(--duration) ease-in-out forwards;
+}
+
+@keyframes meteor-fly {
   0%   { transform: translate(var(--start-x), var(--start-y)) rotate(var(--angle)); opacity: 0; }
   10%  { opacity: 1; }
   85%  { opacity: 1; }
   100% { transform: translate(var(--end-x),   var(--end-y))   rotate(var(--angle)); opacity: 0; }
+}
+
+@keyframes meteor-trail {
+  0%   { transform: scaleX(0); }
+  25%  { transform: scaleX(1); }
+  75%  { transform: scaleX(1); }
+  100% { transform: scaleX(0); }
+}
+
+@keyframes meteor-tip {
+  0%   { opacity: 0; transform: translate(50%, -50%) scale(0.8); }
+  35%  { opacity: 1; transform: translate(50%, -50%) scale(1.2); }
+  70%  { opacity: 1; transform: translate(50%, -50%) scale(1.0); }
+  100% { opacity: 0; transform: translate(50%, -50%) scale(0.8); }
 }
 
 /* ============ Skills Section — Pills with Hover Tooltips ============
