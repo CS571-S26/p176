@@ -168,7 +168,7 @@ Pattern for data-driven asset paths in JSX:
 
 ### State Management
 
-- **Dark mode** — `useState` in `App.jsx`, prop-drilled to `Navbar` and `MeteorShower`. Toggles `.dark-mode` on root wrapper. Persisted to `localStorage['p176:dark-mode']` (string `'true'` / `'false'`); first-time visitors default to light (any non-`'true'` value, including `null`, is treated as light).
+- **Dark mode** — `useState` in `App.jsx`, prop-drilled to `Navbar` and `MeteorShower`. Toggles `.dark-mode` on root wrapper. Persisted to `localStorage['p176:dark-mode']` (string `'true'` / `'false'`); first-time visitors default to dark (any non-`'false'` value, including `null`, is treated as dark).
 - **Project votes** — `useState` in `Home.jsx`, passed to `ProjectCard` via `onVote`. Persisted to `localStorage['p176:project-votes']` as `{ [id]: votes }`. Only the map is stored, not project content, so stale project metadata can't get frozen in visitors' browsers.
 - **Filters/search** — `useState` in `Home.jsx` for `selectedTags` (multi-select), `showFilters` (popover open/close), `search`. `FilterPopover` uses Bootstrap `Overlay`+`Popover` with `rootClose` + ESC listener. Search matches `title`, `description`, AND `tags`. Timeline `filter` lives in `ResumeTimeline.jsx` (per-mount, so Home and `/resume` don't share).
 - **Contact form** — `useState` in `ContactForm.jsx` (`form` + `status` idle/sending/success/error). POSTs JSON to Formspree; success clears the form and shows a Bootstrap `Alert`; errors show a mailto fallback.

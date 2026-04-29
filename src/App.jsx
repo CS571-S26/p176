@@ -70,9 +70,9 @@ const DARK_MODE_STORAGE_KEY = 'p176:dark-mode';
 function App() {
   const [darkMode, setDarkMode] = useState(() => {
     try {
-      return localStorage.getItem(DARK_MODE_STORAGE_KEY) === 'true';
+      return localStorage.getItem(DARK_MODE_STORAGE_KEY) !== 'false';
     } catch {
-      return false;
+      return true;
     }
   });
 
@@ -106,6 +106,16 @@ function App() {
               <stop offset="0%" stopColor="#0f766e" />
               <stop offset="55%" stopColor="#14b8a6" />
               <stop offset="100%" stopColor="#a7f3d0" />
+            </linearGradient>
+            <linearGradient id="back-link-gradient-light" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#cbd5e1" />
+              <stop offset="50%" stopColor="#64748b" />
+              <stop offset="100%" stopColor="#475569" />
+            </linearGradient>
+            <linearGradient id="back-link-gradient-dark" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#52525b" />
+              <stop offset="50%" stopColor="#e4e4e7" />
+              <stop offset="100%" stopColor="#52525b" />
             </linearGradient>
           </defs>
         </svg>

@@ -367,6 +367,27 @@ footer {
   color: transparent;
 }
 
+/* Inline emphasis (renderBold's <strong>) — paints impact numbers with the
+   brand gradient instead of plain bold black/white. Same palette swap as
+   .brand-portfolio: blue → indigo → violet light, emerald → teal → mint dark.
+   font-weight: 700 keeps the boldness explicit since gradient text overrides
+   the user-agent's <strong> styling on some platforms. */
+.brand-strong {
+  font-weight: 700;
+  background: linear-gradient(90deg, #3b82f6 0%, #6366f1 50%, #a78bfa 100%);
+  -webkit-background-clip: text;
+          background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.dark-mode .brand-strong {
+  background: linear-gradient(90deg, #10b981 0%, #14b8a6 50%, #5eead4 100%);
+  -webkit-background-clip: text;
+          background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 /* Transparent bulleted list with a gradient ◆ marker that mirrors
    .brand-portfolio. Used by ProjectDetail's Highlights — replaces the
    Bootstrap ListGroup so the aurora shows through and there are no divider
@@ -415,45 +436,95 @@ footer {
   color: #cbd5e1 !important;
 }
 
-/* Back button (Project/Experience detail pages) — replaces Bootstrap's
-   default link-blue with the .brand-portfolio palette. Label text gets the
-   full gradient via background-clip; the FaArrowLeft icon stays a solid
-   middle-stop color (gradient text doesn't apply to SVG fills, and a solid
-   icon next to gradient text reads cleanly). */
+/* Back button (Project/Experience detail pages) — structural reset only.
+   Visual styling (color/gradient) lives on the .back-link-gradient utility
+   so the gradient theme is independently reusable. */
 .back-btn.btn,
-.back-btn.btn:focus {
+.back-btn.btn:focus,
+.back-btn.btn:hover {
   text-decoration: none;
-  color: #6366f1;
-  background: linear-gradient(90deg, #3b82f6 0%, #6366f1 50%, #a78bfa 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
   box-shadow: none;
 }
 
-.back-btn.btn:hover {
-  color: #4f46e5;
-  background: linear-gradient(90deg, #2563eb 0%, #4f46e5 50%, #8b5cf6 100%);
+/* Two-tone grey gradient text — same background-clip technique as
+   .brand-portfolio, but neutral so it reads as navigational chrome rather
+   than brand color. Light mode: light → medium slate. Dark mode: near-white
+   → mid slate, so it feels luminous on the dark background. The arrow icon
+   (react-icons SVG) picks up the matching gradient via fill: url(#…); defs
+   live in App.jsx alongside the upvote-gradient defs. */
+.back-link-gradient {
+  color: #64748b;
+  -webkit-text-fill-color: #64748b;
+}
+
+.back-link-gradient svg {
+  fill: currentColor;
+}
+
+.dark-mode .back-link-gradient {
+  background: linear-gradient(90deg, #52525b 0%, #e4e4e7 50%, #52525b 100%);
   -webkit-background-clip: text;
-  background-clip: text;
+          background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.dark-mode .back-link-gradient svg {
+  fill: #a1a1aa;
+}
+
+/* Section subheadings on project/experience detail pages — same neutral
+   slate palette as .back-link-gradient so navigational chrome and section
+   headers share a coherent monochrome accent. Light: solid mid-slate.
+   Dark: near-white → mid-slate gradient via background-clip. */
+.subheading-gradient {
+  color: #64748b;
+  -webkit-text-fill-color: #64748b;
+}
+
+.dark-mode .subheading-gradient {
+  background: linear-gradient(90deg, #52525b 0%, #e4e4e7 50%, #52525b 100%);
+  -webkit-background-clip: text;
+          background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* Subheading variant with the brand-shine sweep layered on top of the slate
+   palette. Same animation/keyframes as the hero & project title shines, but
+   the static base layer is the neutral subheading slate (solid in light,
+   gradient in dark) instead of the brand teal/indigo. Apply alongside or
+   instead of .subheading-gradient on whichever heading you want shining. */
+.subheading-shine {
+  background:
+    linear-gradient(110deg,
+      transparent 40%,
+      rgba(255, 255, 255, 0.55) 50%,
+      transparent 60%) 200% 0 / 200% 100% no-repeat,
+    linear-gradient(90deg, #64748b 0%, #64748b 100%);
+  -webkit-background-clip: text;
+          background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: brand-shine 6.44s linear infinite;
+}
+
+.dark-mode .subheading-shine {
+  background:
+    linear-gradient(110deg,
+      transparent 40%,
+      rgba(255, 255, 255, 0.6) 50%,
+      transparent 60%) 200% 0 / 200% 100% no-repeat,
+    linear-gradient(90deg, #52525b 0%, #e4e4e7 50%, #52525b 100%);
+  -webkit-background-clip: text;
+          background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-.dark-mode .back-btn.btn,
-.dark-mode .back-btn.btn:focus {
-  color: #14b8a6;
-  background: linear-gradient(90deg, #10b981 0%, #14b8a6 50%, #5eead4 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.dark-mode .back-btn.btn:hover {
-  color: #2dd4bf;
-  background: linear-gradient(90deg, #34d399 0%, #2dd4bf 50%, #6ee7b7 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+@media (prefers-reduced-motion: reduce) {
+  .subheading-shine {
+    animation: none;
+  }
 }
 
 /* Hero "View Projects" button — transparent fill with a gradient border that
@@ -498,6 +569,55 @@ footer {
 .hero-projects-btn.btn:hover {
   filter: brightness(1.15);
   transform: translateY(-1px);
+}
+
+/* Hero "View Projects" label shine — two stacked backgrounds, both clipped
+   to the text: a moving diagonal white highlight on top of the static brand
+   gradient. The sweep layer is 200% wide and animates from +200% (fully
+   off-screen left) to -100% (fully off-screen right), so the white slice
+   never sits at a visible edge — the keyframe loop snap is invisible. The
+   trailing hold keyframe creates a pause between sweeps. Scoped to
+   .hero-projects-btn so other .brand-portfolio usages (navbar wordmark,
+   project card "deep dive →") keep their plain gradient. */
+.hero-projects-btn .brand-portfolio,
+.brand-portfolio-shine {
+  background:
+    linear-gradient(110deg,
+      transparent 40%,
+      rgba(255, 255, 255, 0.55) 50%,
+      transparent 60%) 200% 0 / 200% 100% no-repeat,
+    linear-gradient(90deg, #3b82f6 0%, #6366f1 50%, #a78bfa 100%);
+  -webkit-background-clip: text;
+          background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: brand-shine 4.95s linear infinite;
+}
+
+.dark-mode .hero-projects-btn .brand-portfolio,
+.dark-mode .brand-portfolio-shine {
+  background:
+    linear-gradient(110deg,
+      transparent 40%,
+      rgba(255, 255, 255, 0.6) 50%,
+      transparent 60%) 200% 0 / 200% 100% no-repeat,
+    linear-gradient(90deg, #10b981 0%, #14b8a6 50%, #5eead4 100%);
+  -webkit-background-clip: text;
+          background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+@keyframes brand-shine {
+  0%   { background-position: 200% 0, 0 0; }
+  55%  { background-position: -100% 0, 0 0; }
+  100% { background-position: -100% 0, 0 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-projects-btn .brand-portfolio,
+  .brand-portfolio-shine {
+    animation: none;
+  }
 }
 
 
@@ -1079,6 +1199,55 @@ footer.bg-dark {
 
 .title-external-link:hover {
   filter: brightness(1.1);
+}
+
+/* When a title-external-link wraps a .brand-portfolio-shine span (project
+   card titles like Prometheon / SmartCert), drop the default solid-color
+   underline and replace it with a gradient + shine bar drawn by the span's
+   ::after — so the underline matches the title's gradient theme and rides
+   the same animation. Scoped via :has() so timeline-entry external links
+   (which don't use brand-portfolio-shine) keep their plain underline. */
+.title-external-link:has(.brand-portfolio-shine),
+.title-external-link:has(.brand-portfolio-shine):hover,
+.title-external-link:has(.brand-portfolio-shine):focus {
+  text-decoration: none;
+}
+
+.title-external-link .brand-portfolio-shine {
+  position: relative;
+  display: inline-block;
+}
+
+.title-external-link .brand-portfolio-shine::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -3px;
+  height: 2px;
+  background:
+    linear-gradient(110deg,
+      transparent 40%,
+      rgba(255, 255, 255, 0.55) 50%,
+      transparent 60%) 200% 0 / 200% 100% no-repeat,
+    linear-gradient(90deg, #3b82f6 0%, #6366f1 50%, #a78bfa 100%);
+  animation: brand-shine 4.95s linear infinite;
+  pointer-events: none;
+}
+
+.dark-mode .title-external-link .brand-portfolio-shine::after {
+  background:
+    linear-gradient(110deg,
+      transparent 40%,
+      rgba(255, 255, 255, 0.6) 50%,
+      transparent 60%) 200% 0 / 200% 100% no-repeat,
+    linear-gradient(90deg, #10b981 0%, #14b8a6 50%, #5eead4 100%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .title-external-link .brand-portfolio-shine::after {
+    animation: none;
+  }
 }
 
 /* Hover preview thumbnail for external project links (Prometheon, future

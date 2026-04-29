@@ -7,6 +7,17 @@ import SkillBadge from './SkillBadge';
 
 const MAX_VISIBLE_TAGS = 6;
 
+// Renders **bold** markdown segments as <strong> within an otherwise plain
+// string. Used to emphasize impact numbers in project copy without storing
+// JSX in the data file.
+function renderBold(str) {
+  return str.split(/(\*\*[^*]+\*\*)/g).map((part, i) =>
+    part.startsWith('**') && part.endsWith('**')
+      ? <strong key={i} className="brand-strong">{part.slice(2, -2)}</strong>
+      : part
+  );
+}
+
 function ProjectCard({ project, onVote, hasClicked = false }) {
   const navigate = useNavigate();
   const [tagsExpanded, setTagsExpanded] = useState(false);
@@ -52,11 +63,11 @@ function ProjectCard({ project, onVote, hasClicked = false }) {
                 onClick={(e) => e.stopPropagation()}
                 className="title-external-link"
               >
-                {project.title}
+                <span className="brand-portfolio-shine">{project.title}</span>
               </a>
             </OverlayTrigger>
           ) : (
-            project.title
+            <span className="brand-portfolio-shine">{project.title}</span>
           )}
         </Card.Title>
         <Card.Subtitle className="text-muted mb-2">{project.tagline}</Card.Subtitle>
@@ -103,13 +114,13 @@ function ProjectCard({ project, onVote, hasClicked = false }) {
             } : undefined}
           />
         )}
-        <Card.Text className="small">{project.description}</Card.Text>
+        <Card.Text className="small">{renderBold(project.description)}</Card.Text>
       </Card.Body>
       <Card.Footer className="d-flex justify-content-between align-items-center">
         <Link
           to={`/project/${project.id}`}
           state={{ from: 'projects' }}
-          className="small fw-semibold brand-portfolio text-decoration-none"
+          className="small fw-semibold brand-portfolio brand-portfolio-shine text-decoration-none"
           onClick={(e) => e.stopPropagation()}
         >
           Click for deep dive →

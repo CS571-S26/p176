@@ -6,6 +6,17 @@ import { getTagStyle } from '../data/skillColors';
 import SkillBadge from '../components/SkillBadge';
 import AuroraBackground from '../components/AuroraBackground';
 
+// Renders **bold** markdown segments as <strong> within an otherwise plain
+// string. Used to emphasize impact numbers in project copy without storing
+// JSX in the data file.
+function renderBold(str) {
+  return str.split(/(\*\*[^*]+\*\*)/g).map((part, i) =>
+    part.startsWith('**') && part.endsWith('**')
+      ? <strong key={i} className="brand-strong">{part.slice(2, -2)}</strong>
+      : part
+  );
+}
+
 function ProjectDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -31,11 +42,11 @@ function ProjectDetail() {
       <Button
         variant="link"
         onClick={() => navigate('/', { state: { scrollTo: from } })}
-        className="mb-3 p-0 back-btn"
+        className="mb-3 p-0 back-btn back-link-gradient"
       >
         <FaArrowLeft /> {backLabel}
       </Button>
-      <h1 className="fw-bold">{project.title}</h1>
+      <h1 className="fw-bold"><span className="brand-portfolio-shine">{project.title}</span></h1>
       <p className="lead text-muted">{project.tagline}</p>
       <div className="mb-3">
         {project.tags.map(tag => (
@@ -43,7 +54,18 @@ function ProjectDetail() {
         ))}
         </div>
 
-      {project.screenshot && (
+      {project.detailVideo ? (
+        <video
+          className="project-screenshot project-screenshot--detail"
+          src={`${import.meta.env.BASE_URL}${project.detailVideo.replace(/^\//, '')}`}
+          controls
+          autoPlay
+          loop
+          muted
+          playsInline
+          aria-label={project.screenshotAlt || `${project.title} demo`}
+        />
+      ) : project.screenshot && (
         <img
           className="project-screenshot project-screenshot--detail"
           src={`${import.meta.env.BASE_URL}${project.screenshot.replace(/^\//, '')}`}
@@ -58,21 +80,25 @@ function ProjectDetail() {
         />
       )}
 
-      <h4 className="mt-4">Overview</h4>
-      <p>{project.description}</p>
+      <h4 className="mt-4 subheading-gradient">Overview</h4>
+      <p>{renderBold(project.description)}</p>
 
-      <h4 className="mt-4">Highlights</h4>
+      <h4 className="mt-4 subheading-shine">Highlights</h4>
       <ul className="brand-bullets mb-3">
         {project.highlights.map((h, i) => (
-          <li key={i}>{h}</li>
+          <li key={i}>{renderBold(h)}</li>
         ))}
       </ul>
 
-      <h4 className="mt-4">Challenges</h4>
-      <p>{project.challenges}</p>
+      <h4 className="mt-4 subheading-gradient">Challenges</h4>
+      {project.challenges.split('\n\n').map((para, i) => (
+        <p key={i}>{renderBold(para)}</p>
+      ))}
 
-      <h4 className="mt-4">Outcome</h4>
-      <p>{project.outcome}</p>
+      <h4 className="mt-4 subheading-gradient">Outcome</h4>
+      {project.outcome.split('\n\n').map((para, i) => (
+        <p key={i}>{renderBold(para)}</p>
+      ))}
 
       <div className="mt-4 d-flex gap-3">
         {project.live && (

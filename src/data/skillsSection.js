@@ -9,7 +9,7 @@ export const skillCategories = [
   { id: 'observability', label: 'Observability',  color: '#dc2626', skills: ['Prometheus', 'Grafana', 'OpenTelemetry', 'Jaeger'] },
   { id: 'databases',     label: 'Databases',      color: '#9333ea', skills: ['PostgreSQL', 'MongoDB', 'Redis', 'Supabase', 'Flyway'] },
   { id: 'ai',            label: 'AI & LLM',       color: '#0891b2', skills: ['Gemini API', 'scikit-learn', 'NLP', 'OpenAI', 'LangChain'] },
-  { id: 'other-tools',   label: 'Other Tools',    color: '#64748b', skills: ['Git', 'Google Maps API', 'Google Books API', 'JWT', 'REST', 'Scrum', 'Postman', 'Unit Testing'] },
+  { id: 'other-tools',   label: 'Other Tools',    color: '#64748b', skills: ['Node.js', 'Git', 'Google Maps API', 'Google Books API', 'JWT', 'REST', 'Scrum', 'Postman', 'Unit Testing'] },
   { id: 'learning',      label: 'Currently Learning', color: '#ca8a04', skills: ['Databricks', 'Apache Spark', 'Delta Lake', 'MLflow'] },
 ];
 
@@ -22,7 +22,7 @@ export const skillProjects = {
   TypeScript:     { type: 'projects', items: ['MadSnowi', 'DevPortfolio'] },
   Go:             { type: 'practice', text: 'Built CLI tools and learning projects' },
   JavaScript:     { type: 'projects', items: ['DevPortfolio', 'MadSnowi', 'Prometheon', 'SmartCert'] },
-  'C/C++':        { type: 'practice', text: 'Used extensively in courses and systems programming for 4+ years' },
+  'C/C++':        { tycpe: 'practice', text: 'Used extensively in courses and systems programming for 4+ years' },
   React:          { type: 'projects', items: ['DevPortfolio', 'MadSnowi', 'Prometheon', 'SmartCert', 'BadgerMart', 'BadgerChat'] },
   FastAPI:        { type: 'projects', items: ['SmartCert', 'Prometheon'] },
   'Spring Boot':  { type: 'projects', items: ['BookShelf'] },
@@ -55,6 +55,8 @@ export const skillProjects = {
   'Postman':        { type: 'projects', items: ['Prometheon', 'SmartCert', 'BookShelf'] },
   'Unit Testing':   { type: 'projects', items: ['Prometheon', 'SmartCert', 'BookShelf'] },
   Supabase:        { type: 'projects', items: ['MadSnowi'] },
+  Flyway:         { type: 'projects', items: ['BookShelf'] },
+  'Node.js':      { type: 'projects', items: ['MadSnowi'] }
 
 
 };

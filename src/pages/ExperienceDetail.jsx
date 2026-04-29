@@ -28,7 +28,7 @@ function ExperienceDetail() {
       <Button
         variant="link"
         onClick={() => navigate('/', { state: { scrollTo: 'resume' } })}
-        className="mb-3 p-0 back-btn"
+        className="mb-3 p-0 back-btn back-link-gradient"
       >
         <FaArrowLeft /> Back to timeline
       </Button>
