@@ -25,12 +25,13 @@ const timeline = [
     type: 'education',
     title: 'B.S. Computer Science',
     subtitle: 'University of Wisconsin–Madison',
-    period: 'Aug 2022 – May 2026 (Expected)',
+    subtitleLogo: '/uw-crest-color-web-digital.svg',
+    period: 'Aug 2022 – May 2026',
     startYear: 2022,
     startMonth: 8,
     endYear: 2026,
     endMonth: 5,
-    description: 'B.S. Computer Science, GPA 3.78. Expected graduation May 2026.',
+    description: 'B.S. Computer Science, GPA 3.78.',
     highlights: [
       'GPA: 3.78',
       'Based in Madison, WI',
@@ -59,10 +60,10 @@ const timeline = [
     startYear: 2025,
     startMonth: 9,
     endYear: 2025,
-    // endMonth shifted from 12 → 10.5 so the 320px card has visible
-    // breathing room before the 2026 tick on the horizontal timeline.
-    // Actual end date is Dec 2025 (see `period` label on the card).
-    endMonth: 10.5,
+    // endMonth set to 10.66 so SmartCert's left edge lands at 32% of the
+    // horizontal timeline. Actual end date is Dec 2025 (see `period`
+    // label on the card).
+    endMonth: 10.66,
     description:
       'Cut manual aerospace compliance review time by 75%+ (hours → minutes) by engineering an LLM validation pipeline with Google Gemini. Backend served 1,500+ clients across 20+ countries.',
     highlights: [
@@ -119,12 +120,12 @@ const timeline = [
     startYear: 2025,
     startMonth: 6,
     endYear: 2025,
-    // endMonth set to 7.57 so MadSnowi's center lands at 8.2% of the
+    // endMonth set to 7.28 so MadSnowi's left edge lands at 6% of the
     // horizontal timeline for more breathing room from BookShelf. Card's
     // left edge extends past the container's left edge, but the extra
     // space is within the card's border + body padding so the title
     // stays readable. Actual end is Aug 2025 (see `period` label).
-    endMonth: 7.57,
+    endMonth: 7.28,
     description:
       'Flask + Supabase route optimizer combining traffic, weather, and Wisconsin DOT data for safety-aware routing. AI-powered hazard reporting turns observations into structured incident reports; 40% backend perf improvement from caching + query tuning.',
     link: '/#/project/4',

@@ -1,9 +1,21 @@
 import { useParams, useNavigate } from 'react-router-dom';
-import { Container, Button, ListGroup } from 'react-bootstrap';
-import { FaArrowLeft, FaBriefcase } from 'react-icons/fa';
+import { Container, Button } from 'react-bootstrap';
+import { FaArrowLeft, FaBriefcase, FaExternalLinkAlt } from 'react-icons/fa';
 import experience from '../data/experience';
 import SkillBadge from '../components/SkillBadge';
 import AuroraBackground from '../components/AuroraBackground';
+
+function renderBold(str) {
+  return str.split(/(\*\*\*[^*]+\*\*\*|\*\*[^*]+\*\*)/g).map((part, i) => {
+    if (part.startsWith('***') && part.endsWith('***')) {
+      return <strong key={i} className="brand-strong-shine">{part.slice(3, -3)}</strong>;
+    }
+    if (part.startsWith('**') && part.endsWith('**')) {
+      return <strong key={i} className="brand-strong">{part.slice(2, -2)}</strong>;
+    }
+    return part;
+  });
+}
 
 function ExperienceDetail() {
   const { id } = useParams();
@@ -39,9 +51,9 @@ function ExperienceDetail() {
           Experience
         </small>
       </div>
-      <h1 className="fw-bold mb-1">{role.title}</h1>
-      <h5 className="text-muted mb-1">{role.company}</h5>
-      <div className="text-muted mb-3">
+      <h1 className="fw-bold mb-1"><span className="brand-portfolio-shine">{role.title}</span></h1>
+      <h5 className="mb-1 metallic-blue">{role.company}</h5>
+      <div className="experience-meta mb-3">
         {role.location} · {role.period}
       </div>
       <p className="lead">{role.tagline}</p>
@@ -52,20 +64,20 @@ function ExperienceDetail() {
         ))}
       </div>
 
-      <h4 className="mt-4">The problem</h4>
+      <h4 className="mt-4 subheading-gradient">The problem</h4>
       <p>{role.overview}</p>
 
-      <h4 className="mt-4">My role</h4>
+      <h4 className="mt-4 subheading-gradient">My role</h4>
       <p>{role.team}</p>
 
-      <h4 className="mt-4">Impact</h4>
-      <ListGroup variant="flush" className="mb-3">
+      <h4 className="mt-4 subheading-shine">Impact</h4>
+      <ul className="brand-bullets mb-3">
         {role.impact.map((item, i) => (
-          <ListGroup.Item key={i}>{item}</ListGroup.Item>
+          <li key={i}>{renderBold(item)}</li>
         ))}
-      </ListGroup>
+      </ul>
 
-      <h4 className="mt-4">Key technical decisions</h4>
+      <h4 className="mt-4 subheading-gradient">Key technical decisions</h4>
       {role.technicalDecisions.map((d, i) => (
         <div key={i} className="mb-3">
           <h6 className="fw-bold mb-1">{d.title}</h6>
@@ -73,12 +85,20 @@ function ExperienceDetail() {
         </div>
       ))}
 
-      <h4 className="mt-4">What I built</h4>
-      <ListGroup variant="flush" className="mb-3">
+      <h4 className="mt-4 subheading-gradient">What I built</h4>
+      <ul className="brand-bullets mb-3">
         {role.highlights.map((h, i) => (
-          <ListGroup.Item key={i}>{h}</ListGroup.Item>
+          <li key={i}>{h}</li>
         ))}
-      </ListGroup>
+      </ul>
+
+      {role.links?.publication && (
+        <div className="mt-4 d-flex gap-3">
+          <Button variant="primary" href={role.links.publication} target="_blank" rel="noreferrer">
+            <FaExternalLinkAlt /> Publication
+          </Button>
+        </div>
+      )}
 
       {role.links?.note && (
         <p className="text-muted fst-italic mt-4 small">{role.links.note}</p>

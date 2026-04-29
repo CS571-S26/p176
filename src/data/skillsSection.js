@@ -9,7 +9,7 @@ export const skillCategories = [
   { id: 'observability', label: 'Observability',  color: '#dc2626', skills: ['Prometheus', 'Grafana', 'OpenTelemetry', 'Jaeger'] },
   { id: 'databases',     label: 'Databases',      color: '#9333ea', skills: ['PostgreSQL', 'MongoDB', 'Redis', 'Supabase', 'Flyway'] },
   { id: 'ai',            label: 'AI & LLM',       color: '#0891b2', skills: ['Gemini API', 'scikit-learn', 'NLP', 'OpenAI', 'LangChain'] },
-  { id: 'other-tools',   label: 'Other Tools',    color: '#64748b', skills: ['Node.js', 'Git', 'Google Maps API', 'Google Books API', 'JWT', 'REST', 'Scrum', 'Postman', 'Unit Testing'] },
+  { id: 'other-tools',   label: 'Other Tools',    color: '#64748b', skills: ['Node.js', 'Git', 'Google Maps API', 'Google Books API', 'JWT', 'REST', 'Scrum', 'Postman', 'Firebase', 'Unit Testing'] },
   { id: 'learning',      label: 'Currently Learning', color: '#ca8a04', skills: ['Databricks', 'Apache Spark', 'Delta Lake', 'MLflow'] },
 ];
 
@@ -56,7 +56,8 @@ export const skillProjects = {
   'Unit Testing':   { type: 'projects', items: ['Prometheon', 'SmartCert', 'BookShelf'] },
   Supabase:        { type: 'projects', items: ['MadSnowi'] },
   Flyway:         { type: 'projects', items: ['BookShelf'] },
-  'Node.js':      { type: 'projects', items: ['MadSnowi'] }
+  'Node.js':      { type: 'projects', items: ['MadSnowi'] },
+  Firebase:      { type: 'practice', text: 'Built real time applications with Firebase in hackathons' }
 
 
 };

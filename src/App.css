@@ -388,6 +388,35 @@ footer {
   -webkit-text-fill-color: transparent;
 }
 
+/* Inline emphasis with the brand-shine sweep layered on top — bold + gradient
+   + animated white streak. Triggered by ***...*** in renderBold. */
+.brand-strong-shine {
+  font-weight: 700;
+  background:
+    linear-gradient(110deg,
+      transparent 40%,
+      rgba(255, 255, 255, 0.55) 50%,
+      transparent 60%) 200% 0 / 200% 100% no-repeat,
+    linear-gradient(90deg, #3b82f6 0%, #6366f1 50%, #a78bfa 100%);
+  -webkit-background-clip: text;
+          background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: brand-shine 4.95s linear infinite;
+}
+
+.dark-mode .brand-strong-shine {
+  background:
+    linear-gradient(110deg,
+      transparent 40%,
+      rgba(255, 255, 255, 0.6) 50%,
+      transparent 60%) 200% 0 / 200% 100% no-repeat,
+    linear-gradient(90deg, #10b981 0%, #14b8a6 50%, #5eead4 100%);
+  -webkit-background-clip: text;
+          background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 /* Transparent bulleted list with a gradient ◆ marker that mirrors
    .brand-portfolio. Used by ProjectDetail's Highlights — replaces the
    Bootstrap ListGroup so the aurora shows through and there are no divider
@@ -436,6 +465,17 @@ footer {
   color: #cbd5e1 !important;
 }
 
+/* ExperienceDetail location/period line — neutral grey instead of the slate
+   tint used for other muted detail-page copy. Light: mid-grey similar to
+   Bootstrap's .text-muted. Dark: clearly light, neutral grey. */
+.experience-meta {
+  color: #6b7280;
+}
+
+.dark-mode .experience-meta {
+  color: #6b7280;
+}
+
 /* Back button (Project/Experience detail pages) — structural reset only.
    Visual styling (color/gradient) lives on the .back-link-gradient utility
    so the gradient theme is independently reusable. */
@@ -473,35 +513,20 @@ footer {
   fill: #a1a1aa;
 }
 
-/* Section subheadings on project/experience detail pages — same neutral
-   slate palette as .back-link-gradient so navigational chrome and section
-   headers share a coherent monochrome accent. Light: solid mid-slate.
-   Dark: near-white → mid-slate gradient via background-clip. */
-.subheading-gradient {
-  color: #64748b;
-  -webkit-text-fill-color: #64748b;
-}
-
-.dark-mode .subheading-gradient {
-  background: linear-gradient(90deg, #52525b 0%, #e4e4e7 50%, #52525b 100%);
-  -webkit-background-clip: text;
-          background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
-}
-
-/* Subheading variant with the brand-shine sweep layered on top of the slate
-   palette. Same animation/keyframes as the hero & project title shines, but
-   the static base layer is the neutral subheading slate (solid in light,
-   gradient in dark) instead of the brand teal/indigo. Apply alongside or
-   instead of .subheading-gradient on whichever heading you want shining. */
+/* Section subheadings on project/experience detail pages — dark metallic blue
+   base (3-stop dark→bright→dark gradient gives the "polished metal" sheen)
+   with the brand-shine white sweep layered on top so every subheading
+   shimmers. Both .subheading-gradient and .subheading-shine resolve to the
+   same look; kept as two classes for backwards compatibility with existing
+   markup and for easy future divergence (e.g. different timing per heading). */
+.subheading-gradient,
 .subheading-shine {
   background:
     linear-gradient(110deg,
       transparent 40%,
       rgba(255, 255, 255, 0.55) 50%,
       transparent 60%) 200% 0 / 200% 100% no-repeat,
-    linear-gradient(90deg, #64748b 0%, #64748b 100%);
+    linear-gradient(90deg, #1e40af 0%, #eff6ff 50%, #1e40af 100%);
   -webkit-background-clip: text;
           background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -509,22 +534,46 @@ footer {
   animation: brand-shine 6.44s linear infinite;
 }
 
+.dark-mode .subheading-gradient,
 .dark-mode .subheading-shine {
   background:
     linear-gradient(110deg,
       transparent 40%,
       rgba(255, 255, 255, 0.6) 50%,
       transparent 60%) 200% 0 / 200% 100% no-repeat,
-    linear-gradient(90deg, #52525b 0%, #e4e4e7 50%, #52525b 100%);
+    linear-gradient(90deg, #2563eb 0%, #ffffff 50%, #2563eb 100%);
   -webkit-background-clip: text;
           background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .subheading-gradient,
   .subheading-shine {
     animation: none;
   }
+}
+
+/* Static metallic-blue text fill — same palette as the shimmering subheadings
+   but without the white-streak overlay or animation. For inline labels (e.g.
+   the company name on ExperienceDetail) where a shine would be too busy.
+   `display: inline-block` shrinks the box to the text width so the gradient's
+   50% bright peak actually lands on the text's visual center, not on the
+   surrounding empty space of a block-level container. */
+.metallic-blue {
+  display: inline-block;
+  background: linear-gradient(90deg, #1e40af 0%, #1e40af 38%, #4d8ef7 50%, #1e40af 62%, #1e40af 100%);
+  -webkit-background-clip: text;
+          background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.dark-mode .metallic-blue {
+  background: linear-gradient(90deg, #2563eb 0%, #2563eb 38%, #7eb5fb 50%, #2563eb 62%, #2563eb 100%);
+  -webkit-background-clip: text;
+          background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 /* Hero "View Projects" button — transparent fill with a gradient border that
@@ -615,9 +664,41 @@ footer {
 
 @media (prefers-reduced-motion: reduce) {
   .hero-projects-btn .brand-portfolio,
-  .brand-portfolio-shine {
+  .brand-portfolio-shine,
+  .brand-strong-shine,
+  .category-shine {
     animation: none;
   }
+}
+
+/* Per-category shine: same white-sweep mechanic as .brand-portfolio-shine, but
+   the underlying fill is a solid color driven by the inline `--shine-color`
+   CSS variable. Used by TimelineEntry's "See details →" so the link inherits
+   the entry-type color (orange for projects, etc.) while still shimmering. */
+.category-shine {
+  background:
+    linear-gradient(110deg,
+      transparent 40%,
+      rgba(255, 255, 255, 0.55) 50%,
+      transparent 60%) 200% 0 / 200% 100% no-repeat,
+    linear-gradient(90deg, var(--shine-color, currentColor), var(--shine-color, currentColor));
+  -webkit-background-clip: text;
+          background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: brand-shine 4.95s linear infinite;
+}
+
+.dark-mode .category-shine {
+  background:
+    linear-gradient(110deg,
+      transparent 40%,
+      rgba(255, 255, 255, 0.6) 50%,
+      transparent 60%) 200% 0 / 200% 100% no-repeat,
+    linear-gradient(90deg, var(--shine-color, currentColor), var(--shine-color, currentColor));
+  -webkit-background-clip: text;
+          background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 

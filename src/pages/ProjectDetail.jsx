@@ -10,11 +10,15 @@ import AuroraBackground from '../components/AuroraBackground';
 // string. Used to emphasize impact numbers in project copy without storing
 // JSX in the data file.
 function renderBold(str) {
-  return str.split(/(\*\*[^*]+\*\*)/g).map((part, i) =>
-    part.startsWith('**') && part.endsWith('**')
-      ? <strong key={i} className="brand-strong">{part.slice(2, -2)}</strong>
-      : part
-  );
+  return str.split(/(\*\*\*[^*]+\*\*\*|\*\*[^*]+\*\*)/g).map((part, i) => {
+    if (part.startsWith('***') && part.endsWith('***')) {
+      return <strong key={i} className="brand-strong-shine">{part.slice(3, -3)}</strong>;
+    }
+    if (part.startsWith('**') && part.endsWith('**')) {
+      return <strong key={i} className="brand-strong">{part.slice(2, -2)}</strong>;
+    }
+    return part;
+  });
 }
 
 function ProjectDetail() {
@@ -101,13 +105,17 @@ function ProjectDetail() {
       ))}
 
       <div className="mt-4 d-flex gap-3">
-        {project.live && (
-          <Button variant="primary" href={project.live} target="_blank">
+        {project.publication ? (
+          <Button variant="primary" href={project.publication} target="_blank" rel="noreferrer">
+            <FaExternalLinkAlt /> Publication
+          </Button>
+        ) : project.live && (
+          <Button variant="primary" href={project.live} target="_blank" rel="noreferrer">
             <FaExternalLinkAlt /> Live Demo
           </Button>
         )}
         {project.github && (
-          <Button variant="dark" href={project.github} target="_blank">
+          <Button variant="dark" href={project.github} target="_blank" rel="noreferrer">
             <FaGithub /> GitHub
           </Button>
         )}

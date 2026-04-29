@@ -67,9 +67,10 @@ const projects = [
     challenges:
       "The biggest challenge was PDF text extraction. We started with traditional OCR using pdfminer, but aerospace certificates come in every format, clean digital PDFs, scanned copies, handwritten signatures, tables mixed with free text across **50+** pages. Every new document type broke our parsing logic, creating an endless cycle of edge-case handling.\n\nI raised this with my senior engineer and we pivoted to Google Gemini, which reads raw PDF bytes natively, eliminating the entire OCR layer. But Gemini's SDK is synchronous, blocking for **10–30 seconds** per call. I wrapped it in asyncio.to_thread to keep the event loop responsive, then built a fallback system with retry logic, compact prompts for token-limit failures, and response validation to make it production-reliable.",
     outcome:
-      "Reduced manual compliance review time by **75%+** (hours to minutes), enabling onboarding of **55+** manufacturing clients across **20+** countries. Owned all backend features as the sole backend engineer for this new AI product at SmartCert.",
+      "Reduced manual compliance review time by ***75%+*** ***(hours to minutes)***, enabling onboarding of **55+** manufacturing clients across **20+** countries. Owned all backend features as the sole backend engineer for this new AI product at SmartCert.",
     github: null,
     live: "https://www.smartcert.tech/",
+    publication: "https://obe.wisc.edu/case-studies/smartcert-driving-innovation-and-student-success/",
     votes: 0,
   },
   {

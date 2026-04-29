@@ -12,21 +12,21 @@ import Guestbook from '../components/Guestbook';
 import ResumeTimeline from '../components/ResumeTimeline';
 import FilterPopover from '../components/FilterPopover';
 import projectsData from '../data/projects';
-
-const VOTES_STORAGE_KEY = 'p176:project-votes';
+import { firebaseEnabled, subscribeVotes, incrementVote } from '../lib/cloudStore';
 
 function Home() {
-  const [projects, setProjects] = useState(() => {
-    try {
-      const saved = JSON.parse(localStorage.getItem(VOTES_STORAGE_KEY) || '{}');
-      return projectsData.map(p => ({
-        ...p,
-        votes: saved[p.id] ?? p.votes ?? 0,
-      }));
-    } catch {
-      return projectsData;
-    }
-  });
+  const [voteCounts, setVoteCounts] = useState({});
+  const projects = projectsData.map(p => ({
+    ...p,
+    votes: voteCounts[p.id] ?? p.votes ?? 0,
+  }));
+
+  useEffect(() => {
+    if (!firebaseEnabled) return;
+    const unsub = subscribeVotes(setVoteCounts);
+    return () => unsub();
+  }, []);
+
   const [clickedThisSession, setClickedThisSession] = useState(() => new Set());
   const [selectedTags, setSelectedTags] = useState([]);
   const [showFilters, setShowFilters] = useState(false);
@@ -63,22 +63,17 @@ function Home() {
   });
 
   const handleVote = (id) => {
-    setProjects(prev => {
-      const next = prev.map(p =>
-        p.id === id ? { ...p, votes: (p.votes || 0) + 1 } : p
-      );
-      try {
-        const votesMap = Object.fromEntries(next.map(p => [p.id, p.votes]));
-        localStorage.setItem(VOTES_STORAGE_KEY, JSON.stringify(votesMap));
-      } catch {}
-      return next;
-    });
     setClickedThisSession(prev => {
       if (prev.has(id)) return prev;
       const next = new Set(prev);
       next.add(id);
       return next;
     });
+    if (firebaseEnabled) {
+      incrementVote(id).catch(err => console.error('vote failed', err));
+    } else {
+      setVoteCounts(prev => ({ ...prev, [id]: (prev[id] ?? 0) + 1 }));
+    }
   };
 
   return (

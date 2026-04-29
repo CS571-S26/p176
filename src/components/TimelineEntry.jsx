@@ -90,7 +90,17 @@ function TimelineEntry({ entry, rootRef, orientation = 'vertical', lane, leftPer
               entry.title
             )}
           </Card.Title>
-          <Card.Subtitle className="mb-2 text-muted">{entry.subtitle}</Card.Subtitle>
+          <Card.Subtitle className="mb-2 text-muted d-flex align-items-center gap-2">
+            {entry.subtitleLogo && (
+              <img
+                src={`${import.meta.env.BASE_URL}${entry.subtitleLogo.replace(/^\//, '')}`}
+                alt=""
+                aria-hidden="true"
+                style={{ height: '1.4em', width: 'auto', flexShrink: 0 }}
+              />
+            )}
+            <span>{entry.subtitle}</span>
+          </Card.Subtitle>
           <div className="small text-muted mb-2">{entry.period}</div>
           <Card.Text>{entry.description}</Card.Text>
           {entry.highlights && (
@@ -140,7 +150,8 @@ function TimelineEntry({ entry, rootRef, orientation = 'vertical', lane, leftPer
               <Link
                 to={entry.link.replace(/^\/#/, '')}
                 state={{ from: 'resume' }}
-                className="small fw-semibold"
+                className="small fw-semibold text-decoration-none category-shine"
+                style={{ '--shine-color': style.color }}
               >
                 See details →
               </Link>
