@@ -20,6 +20,11 @@ function TimelineEntry({ entry, rootRef, orientation = 'vertical', lane, leftPer
   const Icon = iconMap[timelineTypes[entry.type]?.icon];
   const hasExpanded = !!entry.expanded;
   const collapseHighlights = entry.collapseHighlights && entry.highlights;
+  const certificateHref = entry.certificateUrl
+    ? /^https?:\/\//.test(entry.certificateUrl)
+      ? entry.certificateUrl
+      : `${import.meta.env.BASE_URL}${entry.certificateUrl.replace(/^\//, '')}`
+    : null;
 
   useEffect(() => {
     const node = ref.current;
@@ -140,7 +145,7 @@ function TimelineEntry({ entry, rootRef, orientation = 'vertical', lane, leftPer
                   </button>
                   {entry.certificateUrl && (
                     <a
-                      href={entry.certificateUrl}
+                      href={certificateHref}
                       target="_blank"
                       rel="noreferrer"
                       className="certificate-pill"
@@ -235,7 +240,7 @@ function TimelineEntry({ entry, rootRef, orientation = 'vertical', lane, leftPer
           {entry.certificateUrl && !collapseHighlights && (
             <div className="d-flex justify-content-end mt-2">
               <a
-                href={entry.certificateUrl}
+                href={certificateHref}
                 target="_blank"
                 rel="noreferrer"
                 className="certificate-pill"

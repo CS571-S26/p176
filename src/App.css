@@ -272,12 +272,17 @@
   background-size: 200%, 100%;
   background-attachment: fixed;
   mix-blend-mode: difference;
-  animation: aurora 60s linear infinite;
+  animation: aurora 80s linear infinite;
 }
 
+/* Δ = 400% paired with bg-size 200% gives exactly two full tile-width
+   shifts per cycle, so the loop wraps to a pixel-identical render — no
+   visible snap. Duration bumped 60s → 80s to keep the original
+   perceived drift speed (5%/s, same as the prior 300%/60s).
+   See `.dark-mode .aurora-inner::after` for the dark-mode duration. */
 @keyframes aurora {
   from { background-position: 50% 50%, 50% 50%; }
-  to   { background-position: 350% 50%, 350% 50%; }
+  to   { background-position: 450% 50%, 450% 50%; }
 }
 
 /* Lift Home sections + footer above the fixed aurora layer. The sticky
@@ -313,7 +318,7 @@ footer {
   background-image:
     repeating-linear-gradient(100deg, #000 0%, #000 7%, transparent 10%, transparent 12%, #000 16%),
     repeating-linear-gradient(100deg, #10b981 10%, #5eead4 15%, #6ee7b7 20%, #bbf7d0 25%, #34d399 30%);
-  animation-duration: 90s;
+  animation-duration: 120s;
 }
 
 @media (prefers-reduced-motion: reduce) {

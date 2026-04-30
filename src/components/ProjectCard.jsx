@@ -117,7 +117,7 @@ function ProjectCard({ project, onVote, hasClicked = false }) {
         <Card.Text className="small">{renderBold(project.description)}</Card.Text>
       </Card.Body>
       <Card.Footer className="d-flex justify-content-between align-items-center gap-2">
-        <div className="d-flex align-items-center flex-wrap" style={{ gap: '4rem' }}>
+        <div className="d-flex align-items-center flex-wrap" style={{ gap: '7rem' }}>
           <Link
             to={`/project/${project.id}`}
             state={{ from: 'projects' }}

@@ -167,8 +167,10 @@ const timeline = [
     // timeline. Horizontal mode renders bullets inline (the horizontal
     // card has its own max-height + overflow-y).
     collapseHighlights: true,
-    // TODO: replace '#' with the actual CodePath certificate URL.
-    certificateUrl: '#',
+    // Root-relative path; TimelineEntry prefixes import.meta.env.BASE_URL
+    // before assigning to href so it resolves to /p176/CodePath.jpg in
+    // both dev and prod (Vite doesn't auto-prefix JS string literals).
+    certificateUrl: '/CodePath.jpg',
     description:
       "Selected for CodePath's TIP102, an advanced interview prep program for college students, taught by engineers from top tech companies. Twice-weekly live sessions on data structures, algorithms, and LeetCode style problem solving with mentors and peers from universities across the country.",
     highlights: [
