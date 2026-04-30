@@ -1,22 +1,25 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Card, Collapse, OverlayTrigger, Popover } from 'react-bootstrap';
-import { FaGraduationCap, FaBriefcase, FaCode, FaChevronDown, FaChevronUp } from 'react-icons/fa';
+import { FaGraduationCap, FaBriefcase, FaCode, FaFileAlt, FaChevronDown, FaChevronUp, FaExternalLinkAlt } from 'react-icons/fa';
 import { getTypeStyle, getTypeLabel, timelineTypes } from '../data/timeline';
 
 const iconMap = {
   FaGraduationCap,
   FaBriefcase,
   FaCode,
+  FaFileAlt,
 };
 
 function TimelineEntry({ entry, rootRef, orientation = 'vertical', lane, leftPercent }) {
   const [visible, setVisible] = useState(false);
   const [expanded, setExpanded] = useState(false);
+  const [highlightsOpen, setHighlightsOpen] = useState(false);
   const ref = useRef(null);
   const style = getTypeStyle(entry.type);
   const Icon = iconMap[timelineTypes[entry.type]?.icon];
   const hasExpanded = !!entry.expanded;
+  const collapseHighlights = entry.collapseHighlights && entry.highlights;
 
   useEffect(() => {
     const node = ref.current;
@@ -41,6 +44,8 @@ function TimelineEntry({ entry, rootRef, orientation = 'vertical', lane, leftPer
   const entryStyle =
     orientation === 'horizontal' && leftPercent != null
       ? { left: `${leftPercent}%` }
+      : orientation === 'vertical' && entry.compactTop
+      ? { marginTop: entry.compactTop }
       : undefined;
 
   return (
@@ -104,11 +109,67 @@ function TimelineEntry({ entry, rootRef, orientation = 'vertical', lane, leftPer
           <div className="small text-muted mb-2">{entry.period}</div>
           <Card.Text>{entry.description}</Card.Text>
           {entry.highlights && (
-            <ul className="small mb-2 ps-3">
-              {entry.highlights.map((h, i) => (
-                <li key={i}>{h}</li>
-              ))}
-            </ul>
+            collapseHighlights ? (
+              <>
+                <Collapse in={highlightsOpen}>
+                  <div>
+                    <ul className="brand-bullets brand-bullets--red small mb-2">
+                      {entry.highlights.map((h, i) => (
+                        <li key={i}>{h}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </Collapse>
+                <div className="mt-2 d-flex justify-content-between align-items-center flex-wrap gap-2">
+                  <button
+                    type="button"
+                    className="btn btn-link btn-sm p-0 text-decoration-none fw-semibold category-shine"
+                    onClick={() => setHighlightsOpen(!highlightsOpen)}
+                    aria-expanded={highlightsOpen}
+                    style={{ color: style.color, '--shine-color': style.color }}
+                  >
+                    {highlightsOpen ? (
+                      <>
+                        See less <FaChevronUp size={10} />
+                      </>
+                    ) : (
+                      <>
+                        See more <FaChevronDown size={10} />
+                      </>
+                    )}
+                  </button>
+                  {entry.certificateUrl && (
+                    <a
+                      href={entry.certificateUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="certificate-pill"
+                    >
+                      <span>View certificate</span>
+                      <FaFileAlt size={10} />
+                    </a>
+                  )}
+                </div>
+              </>
+            ) : entry.type === 'experience' ? (
+              <ul className="brand-bullets brand-bullets--green small mb-2">
+                {entry.highlights.map((h, i) => (
+                  <li key={i}>{h}</li>
+                ))}
+              </ul>
+            ) : entry.type === 'certification' ? (
+              <ul className="brand-bullets brand-bullets--red small mb-2">
+                {entry.highlights.map((h, i) => (
+                  <li key={i}>{h}</li>
+                ))}
+              </ul>
+            ) : (
+              <ul className="small mb-2 ps-3">
+                {entry.highlights.map((h, i) => (
+                  <li key={i}>{h}</li>
+                ))}
+              </ul>
+            )
           )}
 
           {hasExpanded && (
@@ -145,18 +206,46 @@ function TimelineEntry({ entry, rootRef, orientation = 'vertical', lane, leftPer
             </>
           )}
 
-          {entry.link && (
-            <div className="mt-2">
-              <Link
-                to={entry.link.replace(/^\/#/, '')}
-                state={{ from: 'resume' }}
-                className="small fw-semibold text-decoration-none category-shine"
-                style={{ '--shine-color': style.color }}
-              >
-                See details →
-              </Link>
+          {(entry.link || entry.publication) && (
+            <div className="mt-2 d-flex align-items-center justify-content-between flex-wrap gap-2">
+              {entry.link && (
+                <Link
+                  to={entry.link.replace(/^\/#/, '')}
+                  state={{ from: 'resume' }}
+                  className="small fw-semibold text-decoration-none category-shine"
+                  style={{ '--shine-color': style.color }}
+                >
+                  See details →
+                </Link>
+              )}
+              {entry.publication && (
+                <a
+                  href={entry.publication}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="publication-pill"
+                >
+                  <span>See publication</span>
+                  <FaExternalLinkAlt size={9} />
+                </a>
+              )}
             </div>
           )}
+
+          {entry.certificateUrl && !collapseHighlights && (
+            <div className="d-flex justify-content-end mt-2">
+              <a
+                href={entry.certificateUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="certificate-pill"
+              >
+                <span>View certificate</span>
+                <FaFileAlt size={10} />
+              </a>
+            </div>
+          )}
+
         </Card.Body>
       </Card>
     </div>

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Card, OverlayTrigger, Popover } from 'react-bootstrap';
 import { useNavigate, Link } from 'react-router-dom';
-import { FaArrowUp } from 'react-icons/fa';
+import { FaArrowUp, FaExternalLinkAlt } from 'react-icons/fa';
 import { getTagStyle } from '../data/skillColors';
 import SkillBadge from './SkillBadge';
 
@@ -116,15 +116,29 @@ function ProjectCard({ project, onVote, hasClicked = false }) {
         )}
         <Card.Text className="small">{renderBold(project.description)}</Card.Text>
       </Card.Body>
-      <Card.Footer className="d-flex justify-content-between align-items-center">
-        <Link
-          to={`/project/${project.id}`}
-          state={{ from: 'projects' }}
-          className="small fw-semibold brand-portfolio brand-portfolio-shine text-decoration-none"
-          onClick={(e) => e.stopPropagation()}
-        >
-          Click for deep dive →
-        </Link>
+      <Card.Footer className="d-flex justify-content-between align-items-center gap-2">
+        <div className="d-flex align-items-center flex-wrap" style={{ gap: '4rem' }}>
+          <Link
+            to={`/project/${project.id}`}
+            state={{ from: 'projects' }}
+            className="small fw-semibold brand-portfolio brand-portfolio-shine text-decoration-none"
+            onClick={(e) => e.stopPropagation()}
+          >
+            Click for deep dive →
+          </Link>
+          {project.publication && (
+            <a
+              href={project.publication}
+              target="_blank"
+              rel="noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              className="publication-pill"
+            >
+              <span>See publication</span>
+              <FaExternalLinkAlt size={9} />
+            </a>
+          )}
+        </div>
         <span
           className={voteBtnClass}
           onClick={(e) => {

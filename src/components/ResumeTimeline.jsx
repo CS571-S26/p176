@@ -1,15 +1,16 @@
 import { useState, useRef } from 'react';
 import { Button } from 'react-bootstrap';
 import { FaDownload } from 'react-icons/fa';
-import { LuLayers, LuGraduationCap, LuBriefcase, LuCodeXml } from 'react-icons/lu';
+import { LuLayers, LuGraduationCap, LuBriefcase, LuCodeXml, LuFileText } from 'react-icons/lu';
 import TimelineEntry from './TimelineEntry';
 import timeline, { timelineYears, datePercent } from '../data/timeline';
 
 const filters = [
-  { value: 'All',        label: 'All',        Icon: LuLayers,        color: '#6c757d' },
-  { value: 'education',  label: 'Education',  Icon: LuGraduationCap, color: '#4fc3f7' },
-  { value: 'experience', label: 'Experience', Icon: LuBriefcase,     color: '#81c784' },
-  { value: 'project',    label: 'Projects',   Icon: LuCodeXml,       color: '#ffb74d' },
+  { value: 'All',           label: 'All',            Icon: LuLayers,        color: '#6c757d' },
+  { value: 'education',     label: 'Education',      Icon: LuGraduationCap, color: '#4fc3f7' },
+  { value: 'experience',    label: 'Experience',     Icon: LuBriefcase,     color: '#81c784' },
+  { value: 'project',       label: 'Projects',       Icon: LuCodeXml,       color: '#ffb74d' },
+  { value: 'certification', label: 'Certifications', Icon: LuFileText,      color: '#ef5350' },
 ];
 
 function ResumeTimeline({ orientation = 'vertical' }) {
@@ -101,7 +102,7 @@ function ResumeTimeline({ orientation = 'vertical' }) {
                 key={entry.id}
                 entry={entry}
                 orientation="horizontal"
-                lane={i % 2 === 0 ? 'top' : 'bottom'}
+                lane={entry.lane || (i % 2 === 0 ? 'top' : 'bottom')}
                 leftPercent={datePercent(entry.endYear, entry.endMonth + 0.5)}
                 rootRef={containerRef}
               />
