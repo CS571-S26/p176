@@ -112,7 +112,6 @@ function NavigationBar({ darkMode, setDarkMode }) {
           <Nav ref={navListRef} onMouseLeave={() => setHoveredSection(null)}>
             <Nav.Link
               ref={(el) => { linkRefs.current.hero = el; }}
-              className={targetSection === 'hero' ? 'nav-link-lit' : ''}
               onClick={() => scrollTo('hero')}
               onMouseEnter={() => setHoveredSection('hero')}
             >
@@ -120,7 +119,6 @@ function NavigationBar({ darkMode, setDarkMode }) {
             </Nav.Link>
             <Nav.Link
               ref={(el) => { linkRefs.current.projects = el; }}
-              className={targetSection === 'projects' ? 'nav-link-lit' : ''}
               onClick={() => scrollTo('projects')}
               onMouseEnter={() => setHoveredSection('projects')}
             >
@@ -128,7 +126,6 @@ function NavigationBar({ darkMode, setDarkMode }) {
             </Nav.Link>
             <Nav.Link
               ref={(el) => { linkRefs.current.skills = el; }}
-              className={targetSection === 'skills' ? 'nav-link-lit' : ''}
               onClick={() => scrollTo('skills')}
               onMouseEnter={() => setHoveredSection('skills')}
             >
@@ -138,14 +135,12 @@ function NavigationBar({ darkMode, setDarkMode }) {
               ref={(el) => { linkRefs.current.resume = el; }}
               as={Link}
               to="/resume"
-              className={targetSection === 'resume' ? 'nav-link-lit' : ''}
               onMouseEnter={() => setHoveredSection('resume')}
             >
               Timeline
             </Nav.Link>
             <Nav.Link
               ref={(el) => { linkRefs.current.contact = el; }}
-              className={targetSection === 'contact' ? 'nav-link-lit' : ''}
               onClick={() => scrollTo('contact')}
               onMouseEnter={() => setHoveredSection('contact')}
             >

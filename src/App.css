@@ -898,7 +898,7 @@ footer {
   position: absolute;
   bottom: 4px;
   left: 0;
-  height: 2px;
+  height: 3.5px;
   border-radius: 2px;
   background: linear-gradient(90deg, #3b82f6 0%, #6366f1 50%, #a78bfa 100%);
   transition:
@@ -912,87 +912,8 @@ footer {
   background: linear-gradient(90deg, #10b981 0%, #14b8a6 50%, #5eead4 100%);
 }
 
-/* Neon-lamp glow above the active-section indicator. The trapezoid
-   clip-path creates two slanted edges (\\ on the left, / on the right)
-   that meet the indicator at 25% and 75% of its width and open outward
-   above. The vertical gradient is brightest at the bottom (closest to
-   the indicator) and fades to transparent at the top — like an LED
-   lamp lighting the active nav link from below. Color tracks the
-   brand-portfolio palette: violet light, emerald dark. */
-.nav-indicator::before {
-  content: '';
-  position: absolute;
-  bottom: 100%;
-  left: 50%;
-  width: 160%;
-  height: 28px;
-  transform: translateX(-50%);
-  clip-path: polygon(0% 0%, 100% 0%, 65.625% 100%, 34.375% 100%);
-  background:
-    radial-gradient(ellipse at 50% 100%,
-      rgba(245, 235, 255, 1) 0%,
-      rgba(216, 180, 254, 0.85) 7%,
-      rgba(192, 132, 252, 0.65) 18%,
-      rgba(167, 139, 250, 0.22) 42%,
-      rgba(167, 139, 250, 0) 68%);
-  filter: blur(2.5px);
-  pointer-events: none;
-  animation: neon-glow-pulse 2.4s ease-in-out infinite;
-}
-
-.dark-mode .nav-indicator::before {
-  background:
-    radial-gradient(ellipse at 50% 100%,
-      rgba(228, 255, 238, 1) 0%,
-      rgba(134, 239, 172, 0.85) 7%,
-      rgba(74, 222, 128, 0.7) 18%,
-      rgba(16, 185, 129, 0.25) 42%,
-      rgba(16, 185, 129, 0) 68%);
-}
-
-/* Glow-stick breathing pulse — opacity oscillates so the bright neon
-   core appears to "throb" softly, matching the LED-lamp feel. */
-@keyframes neon-glow-pulse {
-  0%, 100% { opacity: 0.78; }
-  50%      { opacity: 1; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .nav-indicator::before { animation: none; }
-}
-
-/* Lift nav links above the indicator's glow so the text reads on top
-   of the neon-lamp effect rather than being washed out by it. */
-.navbar .navbar-collapse .navbar-nav .nav-link {
-  position: relative;
-  z-index: 1;
-}
-
-/* Active nav link gets a soft text glow matching the indicator color,
-   reinforcing the LED-lit illusion. */
-.nav-link-lit {
-  text-shadow:
-    0 0 4px rgba(139, 92, 246, 0.55),
-    0 0 12px rgba(139, 92, 246, 0.28);
-  transition: text-shadow 0.3s ease;
-}
-
-.dark-mode .nav-link-lit {
-  text-shadow:
-    0 0 4px rgba(16, 185, 129, 0.7),
-    0 0 14px rgba(16, 185, 129, 0.35);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .nav-link-lit {
-    transition: none;
-  }
-}
-
 @media (max-width: 991px) {
   .nav-indicator { display: none; }
-  .nav-indicator::before { display: none; }
-  .nav-link-lit { text-shadow: none; }
 }
 
 footer.bg-dark {
